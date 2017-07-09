@@ -1,6 +1,5 @@
 # SimplerSpectator
-
-Simple program to be easily spectate & visit the op.gg/lolnexus pages of my friends in games.
+A simple program to spectate & visit the op.gg/lolnexus pages of my friends in games.
 
 _For personal use only, and __does not come with API key.___
 
@@ -16,6 +15,9 @@ If you want to compile this, you will need to create a file named riot_key in /S
 
 # Screenshot
  ![Screenshot](http://i.imgur.com/C51UsO1.png)
+ 
+# Disclaimer
+SimplerSpectator isn’t endorsed by Riot Games and doesn’t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.
 
 # License
 Copyright (C) 2017 aktai0 @ Github
