@@ -11,7 +11,7 @@ If you want to compile this, you will need to create a file named riot_key in /S
 # Features
 - Spectate button to load a player's game
 - Op.gg and Lolnexus buttons to quickly visit those pages for a player
-- Keeps an editable list of people I've spectated so I can spectate them again without needing to write in their name again
+- Keeps an editable list of spectated players to easily spectate them without needing to write in their name again
 - Detects LOL folder & game version to find the correct .exe to open the spectator client
 
 # Screenshot
