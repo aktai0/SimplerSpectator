@@ -131,7 +131,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
     <None Include="riot_key">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
