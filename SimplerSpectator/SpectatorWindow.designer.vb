@@ -224,8 +224,6 @@ Partial Class SpectatorWindow
       'AddCheckBox
       '
       Me.AddCheckBox.AutoSize = True
-      Me.AddCheckBox.Checked = True
-      Me.AddCheckBox.CheckState = System.Windows.Forms.CheckState.Checked
       Me.AddCheckBox.Location = New System.Drawing.Point(19, 116)
       Me.AddCheckBox.Name = "AddCheckBox"
       Me.AddCheckBox.Size = New System.Drawing.Size(18, 17)
