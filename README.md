@@ -3,9 +3,7 @@ A simple program to spectate & visit the op.gg/lolnexus pages of my friends in g
 
 _For personal use only, and __does not come with API key.___
 
-_Requires [RiotSharp](https://github.com/BenFradet/RiotSharp)._
-
-If you want to compile this, you will need to create a file named riot_key in /SimplerSpectator/ with an API key in plaintext, download [RiotSharp's source](https://github.com/BenFradet/RiotSharp) and fix the reference in the SpectatorFunctions project to point to the RiotSharp project.
+If you want to compile this, you will need to create a file named riot_key in /SimplerSpectator/ with an API key in plaintext.
 
 # Features
 - Spectate button to load a player's game
