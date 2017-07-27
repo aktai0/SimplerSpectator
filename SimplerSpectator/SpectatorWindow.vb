@@ -52,6 +52,7 @@ Public Class SpectatorWindow
       DisplayID()
    End Sub
 
+   ' Currently unused
    Private Sub DisplayID()
       Return
       Dim ID = MySpectator.GetSummonerID(NamesComboBox.Text)
@@ -137,6 +138,9 @@ Public Class SpectatorWindow
 
       Dim result = MySpectator.SpectateGame(NamesComboBox.Text, AddCheckBox.Checked)
       Select Case result
+         Case Spectator.SpectateGameResult.OtherWebError
+            ResultLabel.ForeColor = Color.Red
+            ResultLabel.Text = "Error: Other/Web error!"
          Case Spectator.SpectateGameResult.APIError
             ResultLabel.ForeColor = Color.Red
             ResultLabel.Text = "Error: API error!"

@@ -8,6 +8,11 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SimplerSpectator", "Simpler
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SpectatorFunctions", "SpectatorFunctions\SpectatorFunctions.vbproj", "{61DC1023-FE77-4AA6-926B-11F80DB61627}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{35364936-715B-4A3A-81FB-09335BC12DF8}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

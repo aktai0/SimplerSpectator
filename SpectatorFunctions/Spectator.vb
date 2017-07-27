@@ -1,5 +1,4 @@
 ﻿Imports EasyCache
-Imports RiotSharp
 
 <Serializable>
 Public Class Spectator
@@ -133,7 +132,7 @@ Public Class Spectator
    ' EMPTY_STR _""
    ' NA_URL _"spectator spectator.na.lol.riotgames.com:80_
 
-   Public ReadOnly Property GetFullCommand(ByVal encryption As String, ByVal matchID As Long) As String
+   Public ReadOnly Property GetFullCommand(ByVal encryption As String, ByVal matchID As String) As String
       Get
          Return GetLeaguePathWithQuotes() & " " & GetArguments(encryption, matchID)
       End Get
@@ -145,7 +144,7 @@ Public Class Spectator
       End Get
    End Property
 
-   Public ReadOnly Property GetArguments(ByVal encryption As String, ByVal matchID As Long) As String
+   Public ReadOnly Property GetArguments(ByVal encryption As String, ByVal matchID As String) As String
       Get
          Return RIOTS_MAGIC_NUMBER & LOLLAUNCHER_EXE & EMPTY_STR & NA_URL & encryption & " " & matchID & NA_ID & " ""-UseRads"""
       End Get
@@ -156,6 +155,7 @@ Public Class Spectator
       NotInGame
       SummonerNotFound
       APIError
+      OtherWebError
    End Enum
 
    Private SummonerIDs As New Dictionary(Of String, String)
@@ -182,83 +182,88 @@ Public Class Spectator
    End Sub
 
    Public Function GetSummonerName(ByVal id As String) As String
-      Dim api = APIHelper.GetRiotSharpInstance()
-      Dim summoner As SummonerEndpoint.SummonerBase
-      Try
-         summoner = api.GetSummonerName(Region.na, CInt(id))
-      Catch ex As RiotSharpException
-         If ex.Message.Contains("404") Then
-            Console.WriteLine("Summoner not found")
-            Throw New Exception("Summoner not found")
-         Else
-            Console.WriteLine("API Error: " & ex.Message)
-            Throw New Exception("API Error: " & ex.Message)
-         End If
-         Return Nothing
-      End Try
+      Throw New NotImplementedException("Needs to be redone w/o RiotSharp")
+   End Function
 
-      Return summoner.Name
+   'Public Function GetSummonerName(ByVal id As String) As String
+   '   Dim api = APIHelper.GetRiotSharpInstance()
+   '   Dim summoner As SummonerEndpoint.SummonerBase
+   '   Try
+   '      summoner = api.GetSummonerName(Region.na, CInt(id))
+   '   Catch ex As RiotSharpException
+   '      If ex.Message.Contains("404") Then
+   '         Console.WriteLine("Summoner not found")
+   '         Throw New Exception("Summoner not found")
+   '      Else
+   '         Console.WriteLine("API Error: " & ex.Message)
+   '         Throw New Exception("API Error: " & ex.Message)
+   '      End If
+   '      Return Nothing
+   '   End Try
+
+   '   Return summoner.Name
+   'End Function
+
+   ' Returns the summoner's ID if already stored, otherwise query the API for it
+   Private Function GetSummonerID(ByVal summonerName As String, ByVal addToList As Boolean) As String
+      If SummonerIDs.ContainsKey(summonerName) Then
+         Return SummonerIDs(summonerName)
+      Else
+         Dim summID As String = ""
+         Try
+            summID = APIHelper.QuerySummonerIDOnly(summonerName)
+         Catch ex As Exception
+            ' Let the caller handle the exception
+            Throw ex
+         End Try
+
+         If addToList Then
+            _CacheChanged = True
+            SummonerIDs.Add(summonerName, summID)
+         End If
+         Return summID
+      End If
    End Function
 
    Public Function SpectateGame(ByVal summonerName As String, Optional ByVal addSummonerToList As Boolean = True) As SpectateGameResult
       PopupCheckLeagueVersion()
 
-      Dim summID As Long = 0
-
-      If SummonerIDs.ContainsKey(summonerName) Then
-         summID = CLng(SummonerIDs(summonerName))
-      Else
-         _CacheChanged = True
-         Dim api = APIHelper.GetRiotSharpInstance()
-         Dim summoner As SummonerEndpoint.Summoner
-         Try
-            summoner = api.GetSummoner(Region.na, summonerName)
-         Catch ex As RiotSharpException
-            If ex.Message.Contains("404") Then
-               Console.WriteLine("Summoner not found")
-               Return SpectateGameResult.SummonerNotFound
-            Else
-               Console.WriteLine("API Error: " & ex.Message)
-               Return SpectateGameResult.APIError
-            End If
-         End Try
-
-         summID = summoner.Id
-         If addSummonerToList Then
-            SummonerIDs.Add(summonerName, CStr(summoner.Id))
-            _CacheChanged = True
-         End If
-      End If
-
-      Dim match As CurrentGameEndpoint.CurrentGame
+      Dim summID As String = ""
       Try
-         match = APIHelper.GetRiotSharpInstance().GetCurrentGame(Platform.NA1, summID)
-      Catch ex As RiotSharpException
-         If ex.Message.Contains("404") Then
-            Console.WriteLine("Not in a game")
-            LastSummonerName = summonerName
-            Return SpectateGameResult.NotInGame
-         Else
-            Console.WriteLine("API Error: " & ex.Message)
-            Return SpectateGameResult.APIError
-         End If
+         summID = GetSummonerID(summonerName, addSummonerToList)
+      Catch ex As APIHelper.SummonerNotFoundException
+         Return SpectateGameResult.SummonerNotFound
+      Catch ex As APIHelper.APIErrorException
+         Return SpectateGameResult.APIError
+      Catch ex As APIHelper.OtherWebError
+         Return SpectateGameResult.OtherWebError
       End Try
 
-      'If Not onlyCommand Then
+      Dim gameInfo As APIHelper.SpectatorInfo = Nothing
+      Try
+         gameInfo = APIHelper.QuerySpectator(summID)
+      Catch ex As APIHelper.SummonerNotInGameException
+         Return SpectateGameResult.NotInGame
+      Catch ex As APIHelper.APIErrorException
+         Return SpectateGameResult.APIError
+      Catch ex As APIHelper.OtherWebError
+         Return SpectateGameResult.OtherWebError
+      End Try
+
+      ' Create the League process with the game info
       Dim process As New System.Diagnostics.Process()
 
       With process.StartInfo
          .FileName = "League of Legends.exe"
          .WorkingDirectory = GetLeagueExePath
-         .Arguments = GetArguments(match.Observers.EncryptionKey, match.GameId)
+         .Arguments = GetArguments(gameInfo.EncryptionKey, gameInfo.GameID)
          .CreateNoWindow = False
       End With
 
       process.Start()
       LastSummonerName = summonerName
-      'End If
 
-      Console.WriteLine(GetFullCommand(match.Observers.EncryptionKey, match.GameId))
+      Console.WriteLine(GetFullCommand(gameInfo.EncryptionKey, gameInfo.GameID))
       Return SpectateGameResult.Success
    End Function
 End Class
