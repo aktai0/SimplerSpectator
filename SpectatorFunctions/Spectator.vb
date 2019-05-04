@@ -208,9 +208,13 @@ Public Class Spectator
    '   Return summoner.Name
    'End Function
 
+   Private Function SummonerIDIsCached(ByVal summonerName As String) As Boolean
+      Return SummonerIDs.ContainsKey(summonerName)
+   End Function
+
    ' Returns the summoner's ID if already stored, otherwise query the API for it
-   Private Function GetSummonerID(ByVal summonerName As String, ByVal addToList As Boolean) As String
-      If SummonerIDs.ContainsKey(summonerName) Then
+   Private Function GetSummonerID(ByVal summonerName As String, ByVal addToList As Boolean, Optional forced As Boolean = False) As String
+      If Not forced AndAlso SummonerIDs.ContainsKey(summonerName) Then
          Return SummonerIDs(summonerName)
       Else
          Dim summID As String = ""
@@ -223,6 +227,7 @@ Public Class Spectator
 
          If addToList Then
             _CacheChanged = True
+            SummonerIDs.Remove(summonerName)
             SummonerIDs.Add(summonerName, summID)
          End If
          Return summID
@@ -238,7 +243,15 @@ Public Class Spectator
       Catch ex As APIHelper.SummonerNotFoundException
          Return SpectateGameResult.SummonerNotFound
       Catch ex As APIHelper.APIErrorException
-         Return SpectateGameResult.APIError
+         If SummonerIDIsCached(summonerName) Then
+            Try
+               summID = GetSummonerID(summonerName, True, True)
+            Catch ex2 As Exception
+               Return SpectateGameResult.APIError
+            End Try
+         Else
+            Return SpectateGameResult.APIError
+         End If
       Catch ex As APIHelper.OtherWebError
          Return SpectateGameResult.OtherWebError
       End Try
@@ -249,7 +262,21 @@ Public Class Spectator
       Catch ex As APIHelper.SummonerNotInGameException
          Return SpectateGameResult.NotInGame
       Catch ex As APIHelper.APIErrorException
-         Return SpectateGameResult.APIError
+         If SummonerIDIsCached(summonerName) Then
+            Try
+               Dim newSummID = GetSummonerID(summonerName, True, True)
+               ' If the forced re-checked summID is different, retry gameInfo
+               If Not newSummID.Equals(summID) Then
+                  gameInfo = APIHelper.QuerySpectator(newSummID)
+               Else
+                  Return SpectateGameResult.APIError
+               End If
+            Catch ex2 As Exception
+               Return SpectateGameResult.APIError
+            End Try
+         Else
+            Return SpectateGameResult.APIError
+         End If
       Catch ex As APIHelper.OtherWebError
          Return SpectateGameResult.OtherWebError
       End Try
