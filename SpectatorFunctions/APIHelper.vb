@@ -43,8 +43,8 @@ Public Class APIHelper
       End If
    End Sub
 
-   Private Const SUMMONER_ENDPOINT_URL As String = "https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/%NAME%?api_key=%KEY%"
-   Private Const SPECTATOR_ENDPOINT_URL As String = "https://na1.api.riotgames.com/lol/spectator/v3/active-games/by-summoner/%ID%?api_key=%KEY%"
+   Private Const SUMMONER_ENDPOINT_URL As String = "https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/%NAME%?api_key=%KEY%"
+   Private Const SPECTATOR_ENDPOINT_URL As String = "https://na1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/%ID%?api_key=%KEY%"
 
    Private Shared Function GetURLOutput(ByVal inputURL As String) As String
       Dim strOutput As String = ""
@@ -93,7 +93,8 @@ Public Class APIHelper
       ElseIf result.Length = 3 Then
          Throw New APIErrorException
       End If
-      Dim re As New Regex("""id"":(\d+),")
+      ' Might need to change parsing the API output later
+      Dim re As New Regex("""id"":""([^""]+)"",")
       Dim match = re.Match(result)
       If match.Groups.Count > 1 Then
          Return match.Groups(1).Value
