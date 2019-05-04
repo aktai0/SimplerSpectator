@@ -56,6 +56,32 @@ Public Class Spectator
       Return True
    End Function
 
+   ' 0.0.1.186 vs 0.0.2.32, etc.
+   ' 1 if a > b
+   ' 0 if a == b
+   ' -1 if b < a
+   ' Throw exception if inputs bad
+   Private Function CompareVersions(a As String, b As String) As Integer
+      Dim aSplit = a.Split("."c)
+      Dim bSplit = b.Split("."c)
+
+      For i = 0 To 3
+         Dim curA = CInt(aSplit(i))
+         Dim curB = CInt(bSplit(i))
+         If curA = curB Then
+            Continue For
+         End If
+
+         If curA > curB Then
+            Return 1
+         ElseIf curA < curB Then
+            Return -1
+         End If
+      Next
+
+      Return 0
+   End Function
+
    Public Function CheckLeagueVersions() As String
       If Not IO.Directory.Exists(LoLFolder & ReleasesExt) Then
          MsgBox("An error occured: the release folder wasn't found. It should be here: " & LoLFolder & ReleasesExt & ".")
@@ -63,42 +89,25 @@ Public Class Spectator
 
       'Split every dir in the release folder
       Dim dirs As String() = IO.Directory.GetDirectories(LoLFolder & ReleasesExt)
-      Dim splits As New List(Of String())
+      Dim versionsInDir As New List(Of String)
       For Each s As String In dirs
          Dim t1 = s.Substring(s.LastIndexOf("\"c) + 1, s.Length - s.LastIndexOf("\"c) - 1)
-         splits.Add(t1.Split("."c))
+         versionsInDir.Add(t1)
       Next
 
-      'Split the current version
-      Dim curVersion As String() = Version.Split("."c)
-
-      Dim marked As New List(Of String()) 'To Delete
-
-      For index = 0 To curVersion.Length - 1
-         For Each version As String() In splits
-            Try
-               If CInt(version(index)) < CInt(curVersion(index)) Then
-                  marked.Add(version)
-               ElseIf CInt(version(index)) > CInt(curVersion(index)) Then
-                  curVersion = version
-               End If
-            Catch ex As Exception
-               marked.Add(version)
-            End Try
-         Next
-         For Each toRemove As String() In marked
-            splits.Remove(toRemove)
-         Next
-         marked.Clear()
+      Dim highestVersion = Version
+      For Each v In versionsInDir
+         Select Case CompareVersions(highestVersion, v)
+            Case -1
+               highestVersion = v
+            Case 0
+               Continue For
+            Case 1
+               Continue For
+         End Select
       Next
 
-      'Rewrap the version
-      Dim endResult As String = ""
-      For Each s As String In curVersion
-         endResult = endResult & s & "."
-      Next
-      endResult = endResult.Substring(0, endResult.LastIndexOf("."c))
-      Return endResult
+      Return highestVersion
    End Function
 
    Public Overrides ReadOnly Property CACHE_FILE_NAME As String
@@ -121,16 +130,11 @@ Public Class Spectator
       End Get
    End Property
 
-   Private Const RIOTS_MAGIC_NUMBER As String = """20216"""
-   Private Const LOLLAUNCHER_EXE As String = " ""LoLLauncher.exe"""
-   Private Const EMPTY_STR As String = " """""
+   'Private Const RIOTS_MAGIC_NUMBER As String = """12345"""
+   'Private Const LOLLAUNCHER_EXE As String = " ""LoLLauncher.exe"""
+   'Private Const EMPTY_STR As String = " """""
    Private Const NA_URL As String = " ""spectator spectator.na2.lol.riotgames.com:80 "
    Private Const NA_ID As String = " NA1"""
-   '
-   ' RIOTS_MAGIC_NUMBER _"8394"
-   ' LOLLAUNCHER_EXE _"LoLLauncher.exe"
-   ' EMPTY_STR _""
-   ' NA_URL _"spectator spectator.na.lol.riotgames.com:80_
 
    Public ReadOnly Property GetFullCommand(ByVal encryption As String, ByVal matchID As String) As String
       Get
@@ -146,7 +150,7 @@ Public Class Spectator
 
    Public ReadOnly Property GetArguments(ByVal encryption As String, ByVal matchID As String) As String
       Get
-         Return RIOTS_MAGIC_NUMBER & LOLLAUNCHER_EXE & EMPTY_STR & NA_URL & encryption & " " & matchID & NA_ID & " ""-UseRads"""
+         Return NA_URL & encryption & " " & matchID & NA_ID & " ""-UseRads"""
       End Get
    End Property
 
