@@ -6,8 +6,8 @@ Public Class Spectator
 
    Public UseDefaultLocation As Boolean = True
    Public LoLFolder As String = "C:\Program Files (x86)\Riot Games\League of Legends\"
-   Private ReleasesExt As String = "RADS\solutions\lol_game_client_sln\releases\"
-   Public Version As String = "0.0.1.86"
+   'Private ReleasesExt As String = "Game\" ' Unused
+   'Public Version As String = "0.0.1.86"
 
    Public ReadOnly Property CachedNames As IEnumerable(Of String)
       Get
@@ -27,24 +27,25 @@ Public Class Spectator
       End If
    End Sub
 
-   Public Function PopupCheckLeagueVersion() As Boolean
-      If CheckLeagueFolder() Then
-         Dim newVersion As String = CheckLeagueVersions()
-         If Not newVersion.Equals(Version) Then
-            Select Case MsgBox("A new release of League of Legends detected: " & newVersion & ". You are currently set to use: " & Version & ". Would you like to use the newer (recommended) release instead)?", MsgBoxStyle.OkCancel, "New Release Version")
-               Case MsgBoxResult.Ok
-                  Version = newVersion
-                  _CacheChanged = True
-            End Select
-            Return True
-         End If
-      End If
-      Return False
-   End Function
+   'Public Function PopupCheckLeagueVersion() As Boolean
+   '   If CheckLeagueFolder() Then
+   '      Dim newVersion As String = CheckLeagueVersions()
+   '      If Not newVersion.Equals(Version) Then
+   '         Select Case MsgBox("A new release of League of Legends detected: " & newVersion & ". You are currently set to use: " & Version & ". Would you like to use the newer (recommended) release instead)?", MsgBoxStyle.OkCancel, "New Release Version")
+   '            Case MsgBoxResult.Ok
+   '               Version = newVersion
+   '               _CacheChanged = True
+   '         End Select
+   '         Return True
+   '      End If
+   '   End If
+   '   Return False
+   'End Function
 
    Public ReadOnly Property GetLeagueExePath() As String
       Get
-         Return LoLFolder & ReleasesExt & Version & "\deploy\"
+         Return LoLFolder & "Game\"
+         'Return LoLFolder & ReleasesExt & Version & "\deploy\"
       End Get
    End Property
 
@@ -82,33 +83,33 @@ Public Class Spectator
       Return 0
    End Function
 
-   Public Function CheckLeagueVersions() As String
-      If Not IO.Directory.Exists(LoLFolder & ReleasesExt) Then
-         MsgBox("An error occured: the release folder wasn't found. It should be here: " & LoLFolder & ReleasesExt & ".")
-      End If
+   'Public Function CheckLeagueVersions() As String
+   '   If Not IO.Directory.Exists(LoLFolder & ReleasesExt) Then
+   '      MsgBox("An error occured: the release folder wasn't found. It should be here: " & LoLFolder & ReleasesExt & ".")
+   '   End If
 
-      'Split every dir in the release folder
-      Dim dirs As String() = IO.Directory.GetDirectories(LoLFolder & ReleasesExt)
-      Dim versionsInDir As New List(Of String)
-      For Each s As String In dirs
-         Dim t1 = s.Substring(s.LastIndexOf("\"c) + 1, s.Length - s.LastIndexOf("\"c) - 1)
-         versionsInDir.Add(t1)
-      Next
+   '   'Split every dir in the release folder
+   '   Dim dirs As String() = IO.Directory.GetDirectories(LoLFolder & ReleasesExt)
+   '   Dim versionsInDir As New List(Of String)
+   '   For Each s As String In dirs
+   '      Dim t1 = s.Substring(s.LastIndexOf("\"c) + 1, s.Length - s.LastIndexOf("\"c) - 1)
+   '      versionsInDir.Add(t1)
+   '   Next
 
-      Dim highestVersion = Version
-      For Each v In versionsInDir
-         Select Case CompareVersions(highestVersion, v)
-            Case -1
-               highestVersion = v
-            Case 0
-               Continue For
-            Case 1
-               Continue For
-         End Select
-      Next
+   '   Dim highestVersion = Version
+   '   For Each v In versionsInDir
+   '      Select Case CompareVersions(highestVersion, v)
+   '         Case -1
+   '            highestVersion = v
+   '         Case 0
+   '            Continue For
+   '         Case 1
+   '            Continue For
+   '      End Select
+   '   Next
 
-      Return highestVersion
-   End Function
+   '   Return highestVersion
+   'End Function
 
    Public Overrides ReadOnly Property CACHE_FILE_NAME As String
       Get
@@ -144,7 +145,8 @@ Public Class Spectator
 
    Public ReadOnly Property GetLeaguePathWithQuotes() As String
       Get
-         Return """" & LoLFolder & ReleasesExt & Version & "\deploy\League of Legends.exe"""
+         Return """" & LoLFolder & "\game" & "\League of Legends.exe""" ' Return """" & LoLFolder & ReleasesExt & Version & "\deploy\League of Legends.exe"""
+
       End Get
    End Property
 
@@ -235,7 +237,7 @@ Public Class Spectator
    End Function
 
    Public Function SpectateGame(ByVal summonerName As String, Optional ByVal addSummonerToList As Boolean = True) As SpectateGameResult
-      PopupCheckLeagueVersion()
+      'PopupCheckLeagueVersion()
 
       Dim summID As String = ""
       Try
@@ -293,7 +295,7 @@ Public Class Spectator
 
       process.Start()
       LastSummonerName = summonerName
-
+      '"C:\Program Files (x86)\Riot Games\League of Legends\Game\League of Legends.exe"
       Console.WriteLine(GetFullCommand(gameInfo.EncryptionKey, gameInfo.GameID))
       Return SpectateGameResult.Success
    End Function

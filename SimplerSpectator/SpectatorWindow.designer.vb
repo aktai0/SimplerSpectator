@@ -120,6 +120,7 @@ Partial Class SpectatorWindow
       '
       'CheckVersionButton
       '
+      Me.CheckVersionButton.Enabled = False
       Me.CheckVersionButton.Location = New System.Drawing.Point(167, 10)
       Me.CheckVersionButton.Name = "CheckVersionButton"
       Me.CheckVersionButton.Size = New System.Drawing.Size(119, 23)

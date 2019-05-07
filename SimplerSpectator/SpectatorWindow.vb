@@ -28,15 +28,16 @@ Public Class SpectatorWindow
       CommandTextBox.SelectAll()
    End Sub
 
-   Private Sub CheckButton_Click(sender As Object, e As EventArgs)
-      If MySpectator.PopupCheckLeagueVersion() Then
-         RevalidateControls()
-      End If
-   End Sub
+   'Private Sub CheckButton_Click(sender As Object, e As EventArgs)
+   '   If MySpectator.PopupCheckLeagueVersion() Then
+   '      RevalidateControls()
+   '   End If
+   'End Sub
 
    Private Sub RevalidateControls()
       LoLFolderTextBox.Text = MySpectator.LoLFolder
-      VersionTextBox.Text = MySpectator.Version
+      VersionTextBox.Text = "Nothing"
+      'VersionTextBox.Text = MySpectator.Version
       NamesComboBox.Items.Clear()
       For Each n In MySpectator.CachedNames
          NamesComboBox.Items.Add(n)
@@ -104,13 +105,13 @@ Public Class SpectatorWindow
       End If
    End Function
 
-   Private Sub CheckVersionButton_Click(sender As Object, e As EventArgs) Handles CheckVersionButton.Click
-      If MySpectator.PopupCheckLeagueVersion() Then
-         RevalidateControls()
-      End If
-      MySpectator.FormatAllNames()
-      RevalidateControls()
-   End Sub
+   'Private Sub CheckVersionButton_Click(sender As Object, e As EventArgs) Handles CheckVersionButton.Click
+   '   If MySpectator.PopupCheckLeagueVersion() Then
+   '      RevalidateControls()
+   '   End If
+   '   MySpectator.FormatAllNames()
+   '   RevalidateControls()
+   'End Sub
 
    Private Sub SaveSettingsButton_Click(sender As Object, e As EventArgs) Handles SaveSettingsButton.Click
       CacheManager.StoreAllCaches()
