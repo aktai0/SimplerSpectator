@@ -46,6 +46,9 @@ Public Class SpectatorWindow
          NamesComboBox.Text = ""
       Else
          NamesComboBox.SelectedItem = MySpectator.LastSummonerName
+         If NamesComboBox.Text = "" Then
+            NamesComboBox.Text = MySpectator.LastSummonerName
+         End If
       End If
       ResultLabel.ForeColor = Color.LightBlue
       ResultLabel.Text = "Standby"

@@ -238,6 +238,8 @@ Public Class Spectator
 
    Public Function SpectateGame(ByVal summonerName As String, Optional ByVal addSummonerToList As Boolean = True) As SpectateGameResult
       'PopupCheckLeagueVersion()
+      LastSummonerName = summonerName
+      _CacheChanged = True
 
       Dim summID As String = ""
       Try
@@ -294,7 +296,6 @@ Public Class Spectator
       End With
 
       process.Start()
-      LastSummonerName = summonerName
       '"C:\Program Files (x86)\Riot Games\League of Legends\Game\League of Legends.exe"
       Console.WriteLine(GetFullCommand(gameInfo.EncryptionKey, gameInfo.GameID))
       Return SpectateGameResult.Success
