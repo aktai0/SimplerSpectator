@@ -62,26 +62,26 @@ Public Class Spectator
    ' 0 if a == b
    ' -1 if b < a
    ' Throw exception if inputs bad
-   Private Function CompareVersions(a As String, b As String) As Integer
-      Dim aSplit = a.Split("."c)
-      Dim bSplit = b.Split("."c)
+   'Private Function CompareVersions(a As String, b As String) As Integer
+   '   Dim aSplit = a.Split("."c)
+   '   Dim bSplit = b.Split("."c)
 
-      For i = 0 To 3
-         Dim curA = CInt(aSplit(i))
-         Dim curB = CInt(bSplit(i))
-         If curA = curB Then
-            Continue For
-         End If
+   '   For i = 0 To 3
+   '      Dim curA = CInt(aSplit(i))
+   '      Dim curB = CInt(bSplit(i))
+   '      If curA = curB Then
+   '         Continue For
+   '      End If
 
-         If curA > curB Then
-            Return 1
-         ElseIf curA < curB Then
-            Return -1
-         End If
-      Next
+   '      If curA > curB Then
+   '         Return 1
+   '      ElseIf curA < curB Then
+   '         Return -1
+   '      End If
+   '   Next
 
-      Return 0
-   End Function
+   '   Return 0
+   'End Function
 
    'Public Function CheckLeagueVersions() As String
    '   If Not IO.Directory.Exists(LoLFolder & ReleasesExt) Then
