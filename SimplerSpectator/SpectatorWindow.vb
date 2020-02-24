@@ -126,9 +126,15 @@ Public Class SpectatorWindow
       End If
    End Sub
 
-   Private Sub LolNexusButton_Click(sender As Object, e As EventArgs) Handles LolNexusButton.Click
+   Private Sub BlitzGGButton_Click(sender As Object, e As EventArgs) Handles BlitzGGButton.Click
       If NamesComboBox.Text <> "" And Not NamesComboBox.Text Is Nothing Then
-         Process.Start("http://www.lolnexus.com/NA/search?name=" & NamesComboBox.Text & "&server=NA")
+         Dim blitzInfo As New ProcessStartInfo
+         With blitzInfo
+            .FileName = "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+            .Arguments = "--check-for-update-interval=604800 --profile-directory=""Default"" --incognito --app=""https://blitz.gg/lol/live/na1/" & NamesComboBox.Text & """"
+         End With
+
+         Process.Start(blitzInfo)
       End If
    End Sub
 
@@ -136,8 +142,8 @@ Public Class SpectatorWindow
       If OpGGCheckBox.Checked Then
          OpGGButton_Click(Nothing, Nothing)
       End If
-      If LolNexusCheckBox.Checked Then
-         LolNexusButton_Click(Nothing, Nothing)
+      If BlitzGGCheckBox.Checked Then
+         BlitzGGButton_Click(Nothing, Nothing)
       End If
 
       Dim result = MySpectator.SpectateGame(NamesComboBox.Text, AddCheckBox.Checked)

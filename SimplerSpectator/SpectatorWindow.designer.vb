@@ -37,10 +37,10 @@ Partial Class SpectatorWindow
       Me.LineShape1 = New Microsoft.VisualBasic.PowerPacks.LineShape()
       Me.SummonerNameLabel = New System.Windows.Forms.Label()
       Me.ResultLabel = New System.Windows.Forms.Label()
-      Me.LolNexusButton = New System.Windows.Forms.Button()
+      Me.BlitzGGButton = New System.Windows.Forms.Button()
       Me.OpGGButton = New System.Windows.Forms.Button()
       Me.OpGGCheckBox = New System.Windows.Forms.CheckBox()
-      Me.LolNexusCheckBox = New System.Windows.Forms.CheckBox()
+      Me.BlitzGGCheckBox = New System.Windows.Forms.CheckBox()
       Me.IDLabel = New System.Windows.Forms.TextBox()
       Me.AddCheckBox = New System.Windows.Forms.CheckBox()
       Me.SuspendLayout()
@@ -175,14 +175,14 @@ Partial Class SpectatorWindow
       Me.ResultLabel.Text = "RESULTS!"
       Me.ResultLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
       '
-      'LolNexusButton
+      'BlitzGGButton
       '
-      Me.LolNexusButton.Location = New System.Drawing.Point(154, 141)
-      Me.LolNexusButton.Name = "LolNexusButton"
-      Me.LolNexusButton.Size = New System.Drawing.Size(132, 23)
-      Me.LolNexusButton.TabIndex = 5
-      Me.LolNexusButton.Text = "LolNexus"
-      Me.LolNexusButton.UseVisualStyleBackColor = True
+      Me.BlitzGGButton.Location = New System.Drawing.Point(154, 141)
+      Me.BlitzGGButton.Name = "BlitzGGButton"
+      Me.BlitzGGButton.Size = New System.Drawing.Size(132, 23)
+      Me.BlitzGGButton.TabIndex = 5
+      Me.BlitzGGButton.Text = "Blitz.GG"
+      Me.BlitzGGButton.UseVisualStyleBackColor = True
       '
       'OpGGButton
       '
@@ -202,14 +202,14 @@ Partial Class SpectatorWindow
       Me.OpGGCheckBox.TabIndex = 2
       Me.OpGGCheckBox.UseVisualStyleBackColor = True
       '
-      'LolNexusCheckBox
+      'BlitzGGCheckBox
       '
-      Me.LolNexusCheckBox.AutoSize = True
-      Me.LolNexusCheckBox.Location = New System.Drawing.Point(158, 145)
-      Me.LolNexusCheckBox.Name = "LolNexusCheckBox"
-      Me.LolNexusCheckBox.Size = New System.Drawing.Size(18, 17)
-      Me.LolNexusCheckBox.TabIndex = 3
-      Me.LolNexusCheckBox.UseVisualStyleBackColor = True
+      Me.BlitzGGCheckBox.AutoSize = True
+      Me.BlitzGGCheckBox.Location = New System.Drawing.Point(158, 145)
+      Me.BlitzGGCheckBox.Name = "BlitzGGCheckBox"
+      Me.BlitzGGCheckBox.Size = New System.Drawing.Size(18, 17)
+      Me.BlitzGGCheckBox.TabIndex = 3
+      Me.BlitzGGCheckBox.UseVisualStyleBackColor = True
       '
       'IDLabel
       '
@@ -238,10 +238,10 @@ Partial Class SpectatorWindow
       Me.ClientSize = New System.Drawing.Size(301, 195)
       Me.Controls.Add(Me.AddCheckBox)
       Me.Controls.Add(Me.IDLabel)
-      Me.Controls.Add(Me.LolNexusCheckBox)
+      Me.Controls.Add(Me.BlitzGGCheckBox)
       Me.Controls.Add(Me.OpGGCheckBox)
       Me.Controls.Add(Me.OpGGButton)
-      Me.Controls.Add(Me.LolNexusButton)
+      Me.Controls.Add(Me.BlitzGGButton)
       Me.Controls.Add(Me.ResultLabel)
       Me.Controls.Add(Me.SummonerNameLabel)
       Me.Controls.Add(Me.SaveSettingsButton)
@@ -278,10 +278,10 @@ Partial Class SpectatorWindow
    Friend WithEvents LineShape1 As Microsoft.VisualBasic.PowerPacks.LineShape
    Friend WithEvents SummonerNameLabel As System.Windows.Forms.Label
    Friend WithEvents ResultLabel As System.Windows.Forms.Label
-   Friend WithEvents LolNexusButton As System.Windows.Forms.Button
+   Friend WithEvents BlitzGGButton As System.Windows.Forms.Button
    Friend WithEvents OpGGButton As System.Windows.Forms.Button
    Friend WithEvents OpGGCheckBox As System.Windows.Forms.CheckBox
-   Friend WithEvents LolNexusCheckBox As System.Windows.Forms.CheckBox
+   Friend WithEvents BlitzGGCheckBox As System.Windows.Forms.CheckBox
    Friend WithEvents IDLabel As System.Windows.Forms.TextBox
    Friend WithEvents AddCheckBox As System.Windows.Forms.CheckBox
 End Class
