@@ -220,3 +220,7 @@ pip-log.txt
 !packages/repositories.config
 
 **/riot_key
+.vs/SimplerSpectator/v15/Server/sqlite3/db.lock
+.vs/SimplerSpectator/v15/Server/sqlite3/storage.ide
+.vs/SimplerSpectator/v15/Server/sqlite3/storage.ide-shm
+.vs/SimplerSpectator/v15/Server/sqlite3/storage.ide-wal
