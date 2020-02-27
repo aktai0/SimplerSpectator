@@ -131,11 +131,21 @@ Public Class SpectatorWindow
          Dim blitzInfo As New ProcessStartInfo
          With blitzInfo
             .FileName = "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
-            .Arguments = "--check-for-update-interval=604800 --profile-directory=""Default"" --incognito --app=""https://blitz.gg/lol/live/na1/" & NamesComboBox.Text & """"
+            .Arguments = "--check-for-update-interval=604800 --profile-directory=""Default"" --incognito --start-maximized --app=""https://blitz.gg/lol/live/na1/" & NamesComboBox.Text & """"
          End With
 
          Process.Start(blitzInfo)
       End If
+   End Sub
+
+   Private Sub BlitzGGProfileButton_Click(sender As Object, e As EventArgs) Handles BlitzGGProfileButton.Click
+      Dim blitzInfo As New ProcessStartInfo
+      With blitzInfo
+         .FileName = "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+         .Arguments = "--check-for-update-interval=604800 --profile-directory=""Default"" --incognito --start-maximized --app=""https://blitz.gg/lol/profile/na1/" & NamesComboBox.Text & """"
+      End With
+
+      Process.Start(blitzInfo)
    End Sub
 
    Private Sub SpectateUserButton_Click(sender As Object, e As EventArgs) Handles SpectateUserButton.Click

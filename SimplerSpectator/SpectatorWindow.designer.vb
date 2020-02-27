@@ -43,6 +43,7 @@ Partial Class SpectatorWindow
       Me.BlitzGGCheckBox = New System.Windows.Forms.CheckBox()
       Me.IDLabel = New System.Windows.Forms.TextBox()
       Me.AddCheckBox = New System.Windows.Forms.CheckBox()
+      Me.BlitzGGProfileButton = New System.Windows.Forms.Button()
       Me.SuspendLayout()
       '
       'CommandTextBox
@@ -179,9 +180,9 @@ Partial Class SpectatorWindow
       '
       Me.BlitzGGButton.Location = New System.Drawing.Point(154, 141)
       Me.BlitzGGButton.Name = "BlitzGGButton"
-      Me.BlitzGGButton.Size = New System.Drawing.Size(132, 23)
+      Me.BlitzGGButton.Size = New System.Drawing.Size(108, 23)
       Me.BlitzGGButton.TabIndex = 5
-      Me.BlitzGGButton.Text = "Blitz.GG"
+      Me.BlitzGGButton.Text = "     Blitz.GG"
       Me.BlitzGGButton.UseVisualStyleBackColor = True
       '
       'OpGGButton
@@ -190,7 +191,7 @@ Partial Class SpectatorWindow
       Me.OpGGButton.Name = "OpGGButton"
       Me.OpGGButton.Size = New System.Drawing.Size(132, 23)
       Me.OpGGButton.TabIndex = 4
-      Me.OpGGButton.Text = "OP.GG"
+      Me.OpGGButton.Text = "    OP.GG"
       Me.OpGGButton.UseVisualStyleBackColor = True
       '
       'OpGGCheckBox
@@ -231,11 +232,22 @@ Partial Class SpectatorWindow
       Me.AddCheckBox.TabIndex = 27
       Me.AddCheckBox.UseVisualStyleBackColor = True
       '
+      'BlitzGGProfileButton
+      '
+      Me.BlitzGGProfileButton.Location = New System.Drawing.Point(263, 141)
+      Me.BlitzGGProfileButton.Name = "BlitzGGProfileButton"
+      Me.BlitzGGProfileButton.Padding = New System.Windows.Forms.Padding(1, 0, 0, 0)
+      Me.BlitzGGProfileButton.Size = New System.Drawing.Size(23, 23)
+      Me.BlitzGGProfileButton.TabIndex = 28
+      Me.BlitzGGProfileButton.Text = "P"
+      Me.BlitzGGProfileButton.UseVisualStyleBackColor = True
+      '
       'SpectatorWindow
       '
       Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
       Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
       Me.ClientSize = New System.Drawing.Size(301, 195)
+      Me.Controls.Add(Me.BlitzGGProfileButton)
       Me.Controls.Add(Me.AddCheckBox)
       Me.Controls.Add(Me.IDLabel)
       Me.Controls.Add(Me.BlitzGGCheckBox)
@@ -284,4 +296,5 @@ Partial Class SpectatorWindow
    Friend WithEvents BlitzGGCheckBox As System.Windows.Forms.CheckBox
    Friend WithEvents IDLabel As System.Windows.Forms.TextBox
    Friend WithEvents AddCheckBox As System.Windows.Forms.CheckBox
+   Friend WithEvents BlitzGGProfileButton As Button
 End Class
