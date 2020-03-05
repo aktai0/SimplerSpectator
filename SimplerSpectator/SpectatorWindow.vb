@@ -70,11 +70,8 @@ Public Class SpectatorWindow
 
    Private Sub NamesComboBox_KeyPress(sender As Object, e As KeyPressEventArgs) Handles NamesComboBox.KeyPress
       'Console.WriteLine(e.KeyChar.ToString & ":" & e.KeyChar & ":" & NamesComboBox.Text)
-      If e.KeyChar = ChrW(Keys.Enter) Then
-         SpectateUserButton.Focus()
-         SpectateUserButton_Click(Nothing, Nothing)
-         e.Handled = True
-      ElseIf e.KeyChar = ChrW(Keys.Delete) AndAlso NamesComboBox.DroppedDown Then
+
+      If e.KeyChar = ChrW(Keys.Delete) AndAlso NamesComboBox.DroppedDown Then
          MySpectator.RemoveSummonerIfExists(NamesComboBox.SelectedItem)
          RevalidateControls()
          e.Handled = True
@@ -86,13 +83,29 @@ Public Class SpectatorWindow
       End If
    End Sub
 
+   Private Sub NamesComboBox_KeyUp(sender As Object, e As KeyEventArgs) Handles NamesComboBox.KeyUp
+      If e.KeyData = Keys.Enter Then
+         If DoingAutoComplete Then
+            Return
+         End If
+
+         SpectateUserButton_Click(Nothing, Nothing)
+         NamesComboBox.SelectAll()
+         e.Handled = True
+      End If
+   End Sub
+
+   Private DoingAutoComplete As Boolean = False
    Protected Overrides Function ProcessCmdKey(ByRef msg As Message, keyData As Keys) As Boolean
+      DoingAutoComplete = False
       If keyData = Keys.Delete AndAlso NamesComboBox.DroppedDown AndAlso NamesComboBox.Focused Then
          NamesComboBox_KeyPress(Nothing, New KeyPressEventArgs(ChrW(Keys.Delete)))
          Return True
       ElseIf keyData = Keys.Enter AndAlso NamesComboBox.Focused Then
-         NamesComboBox_KeyPress(Nothing, New KeyPressEventArgs(ChrW(Keys.Enter)))
-         Return True
+         If NamesComboBox.SelectedItem = "" Then
+            DoingAutoComplete = True
+            Return False
+         End If
       ElseIf keyData = (Keys.Control Or Keys.F) Then
          ' Ctrl F
          NamesComboBox.Focus()
@@ -106,6 +119,7 @@ Public Class SpectatorWindow
       Else
          Return MyBase.ProcessCmdKey(msg, keyData)
       End If
+      Return False
    End Function
 
    'Private Sub CheckVersionButton_Click(sender As Object, e As EventArgs) Handles CheckVersionButton.Click
