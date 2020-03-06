@@ -219,21 +219,30 @@ Public Class Spectator
       If Not forced AndAlso SummonerIDs.ContainsKey(summonerName) Then
          Return SummonerIDs(summonerName)
       Else
-         Dim summID As String = ""
+         Dim summInfo As SpectatorFunctions.APIHelper.SummonerInfo = Nothing
          Try
-            summID = APIHelper.QuerySummonerIDOnly(summonerName)
+            summInfo = APIHelper.QuerySummonerIDOnly(summonerName)
          Catch ex As Exception
             ' Let the caller handle the exception
             Throw ex
          End Try
 
+         ' If the cache already has a summoner with that ID, we can update the name in the list
+         If SummonerIDs.ContainsValue(summInfo.SummonerID) Then
+            Dim kv = SummonerIDs.FirstOrDefault(Function(x) x.Value = summInfo.SummonerID)
+            SummonerIDs.Remove(kv.Key)
+
+            ' Force the removed name to be re-added to the list
+            addToList = True
+         End If
+
          If addToList Then
             _CacheChanged = True
             SummonerIDs.Remove(summonerName)
-            SummonerIDs.Add(summonerName, summID)
+            SummonerIDs.Add(summInfo.SummonerName, summInfo.SummonerID)
          End If
-         Return summID
-      End If
+            Return summInfo.SummonerID
+         End If
    End Function
 
    Public Function SpectateGame(ByVal summonerName As String, Optional ByVal addSummonerToList As Boolean = True) As SpectateGameResult

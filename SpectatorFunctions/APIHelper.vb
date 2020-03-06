@@ -82,8 +82,18 @@ Public Class APIHelper
       Return strOutput
    End Function
 
+   Public Class SummonerInfo
+      Public ReadOnly SummonerID As String
+      Public ReadOnly SummonerName As String
+
+      Friend Sub New(ByVal sID As String, ByVal sName As String)
+         SummonerID = sID
+         SummonerName = sName
+      End Sub
+   End Class
+
    ' Calls API and returns the summoner ID of the given name. If there's an error, throw the appropriate exception.
-   Public Shared Function QuerySummonerIDOnly(ByVal name As String) As String
+   Public Shared Function QuerySummonerIDOnly(ByVal name As String) As SummonerInfo
       Dim url = SUMMONER_ENDPOINT_URL.Replace("%KEY%", API_KEY).Replace("%NAME%", name)
       Dim result = APIHelper.GetURLOutput(url)
       If result = "Other Error" Then
@@ -94,13 +104,27 @@ Public Class APIHelper
          Throw New APIErrorException
       End If
       ' Might need to change parsing the API output later
+      Dim sID As String = ""
+      Dim sName As String = ""
+
       Dim re As New Regex("""id"":""([^""]+)"",")
       Dim match = re.Match(result)
       If match.Groups.Count > 1 Then
-         Return match.Groups(1).Value
+         sID = match.Groups(1).Value
       End If
-      MsgBox("Exception wasn't caught by the end: " & result)
-      Throw New APIErrorException
+
+      Dim re2 As New Regex("""name"":""([^""]+)"",")
+      Dim match2 = re2.Match(result)
+      If match2.Groups.Count > 1 Then
+         sName = match2.Groups(1).Value
+      End If
+
+      If sID.Length = 0 OrElse sName.Length = 0 Then
+         MsgBox("Exception wasn't caught by the end: " & result)
+         Throw New APIErrorException
+      Else
+         Return New SummonerInfo(sID, sName)
+      End If
    End Function
 
    ' Calls API and returns the spectator info of the game of the given ID. If there's an error, throw the appropriate exception.
