@@ -106,6 +106,10 @@ Public Class SpectatorWindow
             ' Append-suggestion is showing (rest of name from the end of user's input is auto-filled and selected; e.g. Fo[obar123])
             DoingAutoComplete = True
             Return False
+         ElseIf NamesComboBox.SelectedItem = "" AndAlso (NamesComboBox.SelectionLength = NamesComboBox.Text.Length) Then
+            ' User clicks a drop-down item while being shown suggestions
+            DoingAutoComplete = True
+            Return False
          ElseIf NamesComboBox.SelectedItem = "" AndAlso (NamesComboBox.SelectionLength = 0) Then
             ' User is trying to press enter to spectate a summoner who isn't in the list (not auto-filled)
             Return False
