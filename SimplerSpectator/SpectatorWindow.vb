@@ -86,6 +86,7 @@ Public Class SpectatorWindow
    Private Sub NamesComboBox_KeyUp(sender As Object, e As KeyEventArgs) Handles NamesComboBox.KeyUp
       If e.KeyData = Keys.Enter Then
          If DoingAutoComplete Then
+            DoingAutoComplete = False
             Return
          End If
 
@@ -97,13 +98,16 @@ Public Class SpectatorWindow
 
    Private DoingAutoComplete As Boolean = False
    Protected Overrides Function ProcessCmdKey(ByRef msg As Message, keyData As Keys) As Boolean
-      DoingAutoComplete = False
       If keyData = Keys.Delete AndAlso NamesComboBox.DroppedDown AndAlso NamesComboBox.Focused Then
          NamesComboBox_KeyPress(Nothing, New KeyPressEventArgs(ChrW(Keys.Delete)))
          Return True
       ElseIf keyData = Keys.Enter AndAlso NamesComboBox.Focused Then
-         If NamesComboBox.SelectedItem = "" Then
+         If NamesComboBox.SelectedItem = "" AndAlso (NamesComboBox.SelectionLength > 0 AndAlso NamesComboBox.SelectionStart > 0) Then
+            ' Append-suggestion is showing (rest of name from the end of user's input is auto-filled and selected; e.g. Fo[obar123])
             DoingAutoComplete = True
+            Return False
+         ElseIf NamesComboBox.SelectedItem = "" AndAlso (NamesComboBox.SelectionLength = 0) Then
+            ' User is trying to press enter to spectate a summoner who isn't in the list (not auto-filled)
             Return False
          End If
       ElseIf keyData = (Keys.Control Or Keys.F) Then
