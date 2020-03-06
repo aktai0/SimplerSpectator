@@ -194,6 +194,11 @@ Public Class SpectatorWindow
             ResultLabel.ForeColor = Color.Green
             ResultLabel.Text = "Loading game!"
       End Select
+
+      ' If the entered name changed, it's been fixed with the proper capitalization/spacing so update it in the text
+      If MySpectator.LastSummonerName <> NamesComboBox.Text Then
+         NamesComboBox.Text = MySpectator.LastSummonerName
+      End If
    End Sub
 
    Private Sub NamesComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles NamesComboBox.SelectedIndexChanged

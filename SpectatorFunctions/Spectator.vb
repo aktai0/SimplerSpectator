@@ -227,6 +227,10 @@ Public Class Spectator
             Throw ex
          End Try
 
+         ' Change the last summoner to the proper capitalization/spacing
+         ' Main window will check for this value after the call and update the text in the combo box too
+         LastSummonerName = summInfo.SummonerName
+
          ' If the cache already has a summoner with that ID, we can update the name in the list
          If SummonerIDs.ContainsValue(summInfo.SummonerID) Then
             Dim kv = SummonerIDs.FirstOrDefault(Function(x) x.Value = summInfo.SummonerID)
