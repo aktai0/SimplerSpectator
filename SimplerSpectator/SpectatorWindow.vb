@@ -90,6 +90,10 @@ Public Class SpectatorWindow
             Return
          End If
 
+         If NamesComboBox.Text = "" Then
+            Return
+         End If
+
          SpectateUserButton_Click(Nothing, Nothing)
          NamesComboBox.SelectAll()
          e.Handled = True
@@ -97,23 +101,34 @@ Public Class SpectatorWindow
    End Sub
 
    Private DoingAutoComplete As Boolean = False
+   ' Handles pressing Delete or Enter, also is called when the suggestion dropdown is showing 
+   '  and the user clicks a suggestion, due to a quirk in ComboBox
+   ' Enter/clicking a suggestion should have the following behavior:
+   ' - If the user begins typing and presses enter to fill the append from the selected suggestion,
+   '    then fill in the name (ComboBox does this by itself) and don't try to spectate.
+   ' - If the user begins typing and clicks on a suggestion,
+   '    then fill in the name (ComboBox does this by itself) and don't try to spectate.
+   ' - If the user begins typing and presses enter without a suggestion showing (i.e. a new name),
+   '    then try spectating.
+   ' - If the user presses enter while ComboBox has a valid/known name,
+   '    then try spectating.
    Protected Overrides Function ProcessCmdKey(ByRef msg As Message, keyData As Keys) As Boolean
       If keyData = Keys.Delete AndAlso NamesComboBox.DroppedDown AndAlso NamesComboBox.Focused Then
          NamesComboBox_KeyPress(Nothing, New KeyPressEventArgs(ChrW(Keys.Delete)))
          Return True
       ElseIf keyData = Keys.Enter AndAlso NamesComboBox.Focused Then
-         If NamesComboBox.SelectedItem = "" AndAlso (NamesComboBox.SelectionLength > 0 AndAlso NamesComboBox.SelectionStart > 0) Then
-            ' Append-suggestion is showing (rest of name from the end of user's input is auto-filled and selected; e.g. Fo[obar123])
+         Console.WriteLine("ProcessCmdKey: " & " Sel Start: " & NamesComboBox.SelectionStart & ", Len: " & NamesComboBox.SelectionLength & ", T: " & NamesComboBox.Text)
+
+         If IsKnownSummoner(NamesComboBox.SelectedItem) Then
+            ' Current item is in the names list and not suggested, spectate
+         ElseIf IsKnownSummoner(NamesComboBox.Text) Then
+            ' Current suggested item is being applied, don't spectate
             DoingAutoComplete = True
-            Return False
-         ElseIf NamesComboBox.SelectedItem = "" AndAlso (NamesComboBox.SelectionLength = NamesComboBox.Text.Length) Then
-            ' User clicks a drop-down item while being shown suggestions
-            DoingAutoComplete = True
-            Return False
-         ElseIf NamesComboBox.SelectedItem = "" AndAlso (NamesComboBox.SelectionLength = 0) Then
-            ' User is trying to press enter to spectate a summoner who isn't in the list (not auto-filled)
-            Return False
+         Else
+            ' Current item is an unknown name, spectate
          End If
+
+         Return False
       ElseIf keyData = (Keys.Control Or Keys.F) Then
          ' Ctrl F
          NamesComboBox.Focus()
@@ -128,6 +143,18 @@ Public Class SpectatorWindow
          Return MyBase.ProcessCmdKey(msg, keyData)
       End If
       Return False
+   End Function
+
+   ' Check if the text in ComboBox is completely selected
+   Private ReadOnly Property IsNameSelected() As Boolean
+      Get
+         Return NamesComboBox.SelectionStart = 0 AndAlso NamesComboBox.SelectionLength = NamesComboBox.Text.Length
+      End Get
+   End Property
+
+   ' Check if the given name is in the ComboBox's list of names, ignoring spacing & capitalization
+   Private Function IsKnownSummoner(ByVal name As String) As Boolean
+      Return NamesComboBox.Items.Cast(Of String).Where(Function(x) StringComparer.OrdinalIgnoreCase().Compare(x.Replace(" ", ""), name?.Replace(" ", "")) = 0)?.Count > 0
    End Function
 
    'Private Sub CheckVersionButton_Click(sender As Object, e As EventArgs) Handles CheckVersionButton.Click
