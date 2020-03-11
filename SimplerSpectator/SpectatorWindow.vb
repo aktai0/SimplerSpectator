@@ -104,13 +104,13 @@ Public Class SpectatorWindow
    ' Handles pressing Delete or Enter, also is called when the suggestion dropdown is showing 
    '  and the user clicks a suggestion, due to a quirk in ComboBox
    ' Enter/clicking a suggestion should have the following behavior:
-   ' - If the user begins typing and presses enter to fill the append from the selected suggestion,
+   ' - If the user begins typing and presses Enter to fill the append from the selected suggestion,
    '    then fill in the name (ComboBox does this by itself) and don't try to spectate.
    ' - If the user begins typing and clicks on a suggestion,
    '    then fill in the name (ComboBox does this by itself) and don't try to spectate.
-   ' - If the user begins typing and presses enter without a suggestion showing (i.e. a new name),
+   ' - If the user begins typing and presses Enter without a suggestion showing (i.e. a new name),
    '    then try spectating.
-   ' - If the user presses enter while ComboBox has a valid/known name,
+   ' - If the user presses Enter while ComboBox has a valid/known name,
    '    then try spectating.
    Protected Overrides Function ProcessCmdKey(ByRef msg As Message, keyData As Keys) As Boolean
       If keyData = Keys.Delete AndAlso NamesComboBox.DroppedDown AndAlso NamesComboBox.Focused Then
@@ -123,6 +123,9 @@ Public Class SpectatorWindow
             ' Current item is in the names list and not suggested, spectate
          ElseIf IsKnownSummoner(NamesComboBox.Text) Then
             ' Current suggested item is being applied, don't spectate
+            ' Pressing Enter and clicking a suggestion both count as SelectedItem being "",
+            '  so the first conditional is false. After the user chooses a suggestion, pressing
+            '  Enter again will cause the first conditional to be true.
             DoingAutoComplete = True
          Else
             ' Current item is an unknown name, spectate
