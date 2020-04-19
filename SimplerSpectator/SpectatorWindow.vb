@@ -208,6 +208,12 @@ Public Class SpectatorWindow
          BlitzGGButton_Click(Nothing, Nothing)
       End If
 
+      If Process.GetProcessesByName("League of Legends").Count > 0 Then
+         ResultLabel.ForeColor = Color.Red
+         ResultLabel.Text = "Error: LoL is already running!"
+         Return
+      End If
+
       Dim result = MySpectator.SpectateGame(NamesComboBox.Text, AddCheckBox.Checked)
       Select Case result
          Case Spectator.SpectateGameResult.OtherWebError
