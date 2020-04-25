@@ -100,6 +100,12 @@ Public Class SpectatorWindow
       End If
    End Sub
 
+   Private Sub NoRepeat()
+      Waiting = True
+      NoRepeatBackgroundWorker.RunWorkerAsync()
+   End Sub
+
+   Private Waiting As Boolean = False
    Private DoingAutoComplete As Boolean = False
    ' Handles pressing Delete or Enter, also is called when the suggestion dropdown is showing 
    '  and the user clicks a suggestion, due to a quirk in ComboBox
@@ -112,10 +118,23 @@ Public Class SpectatorWindow
    '    then try spectating.
    ' - If the user presses Enter while ComboBox has a valid/known name,
    '    then try spectating.
+   ' Keys enum: "Do not use the values in this enumeration for combined bitwise operations.
+   '  The values in the enumeration are not mutually exclusive."
    Protected Overrides Function ProcessCmdKey(ByRef msg As Message, keyData As Keys) As Boolean
       If keyData = Keys.Delete AndAlso NamesComboBox.DroppedDown AndAlso NamesComboBox.Focused Then
          NamesComboBox_KeyPress(Nothing, New KeyPressEventArgs(ChrW(Keys.Delete)))
          Return True
+      ElseIf Not Waiting AndAlso keyData.HasFlag(Keys.Enter) AndAlso (keyData.HasFlag(Keys.Shift) OrElse keyData.HasFlag(Keys.Control) OrElse keyData.HasFlag(Keys.Alt)) Then
+         If keyData.HasFlag(Keys.Shift) Then
+            OpGGButton_Click(Nothing, Nothing)
+         End If
+         If keyData.HasFlag(Keys.Control) Then
+            BlitzGGProfileButton_Click(Nothing, Nothing)
+         End If
+         If keyData.HasFlag(Keys.Alt) Then
+            BlitzGGButton_Click(Nothing, Nothing)
+         End If
+         NoRepeat()
       ElseIf keyData = Keys.Enter AndAlso NamesComboBox.Focused Then
          Console.WriteLine("ProcessCmdKey: " & " Sel Start: " & NamesComboBox.SelectionStart & ", Len: " & NamesComboBox.SelectionLength & ", T: " & NamesComboBox.Text)
 
@@ -255,5 +274,11 @@ Public Class SpectatorWindow
    Private Sub NamesComboBox_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles NamesComboBox.SelectionChangeCommitted
       Console.WriteLine("SCC:" & NamesComboBox.SelectedIndex & ":" & NamesComboBox.SelectedItem & ":" & NamesComboBox.SelectedText & ":" & NamesComboBox.SelectedValue)
       NamesComboBox.SelectedValue = NamesComboBox.SelectedItem
+   End Sub
+
+   ' Wait 500 ms before allowing repeated inputs
+   Private Sub NoRepeatBackgroundWorker_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles NoRepeatBackgroundWorker.DoWork
+      Threading.Thread.Sleep(500)
+      Waiting = False
    End Sub
 End Class

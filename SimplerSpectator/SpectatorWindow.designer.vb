@@ -22,6 +22,7 @@ Partial Class SpectatorWindow
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+      Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(SpectatorWindow))
       Me.CommandTextBox = New System.Windows.Forms.TextBox()
       Me.CommandOnlyCheckbox = New System.Windows.Forms.CheckBox()
@@ -44,6 +45,8 @@ Partial Class SpectatorWindow
       Me.IDLabel = New System.Windows.Forms.TextBox()
       Me.AddCheckBox = New System.Windows.Forms.CheckBox()
       Me.BlitzGGProfileButton = New System.Windows.Forms.Button()
+      Me.NoRepeatBackgroundWorker = New System.ComponentModel.BackgroundWorker()
+      Me.MyToolTip = New System.Windows.Forms.ToolTip(Me.components)
       Me.SuspendLayout()
       '
       'CommandTextBox
@@ -183,6 +186,7 @@ Partial Class SpectatorWindow
       Me.BlitzGGButton.Size = New System.Drawing.Size(108, 23)
       Me.BlitzGGButton.TabIndex = 5
       Me.BlitzGGButton.Text = "     Blitz.GG"
+      Me.MyToolTip.SetToolTip(Me.BlitzGGButton, "Alt + Enter")
       Me.BlitzGGButton.UseVisualStyleBackColor = True
       '
       'OpGGButton
@@ -192,6 +196,7 @@ Partial Class SpectatorWindow
       Me.OpGGButton.Size = New System.Drawing.Size(132, 23)
       Me.OpGGButton.TabIndex = 4
       Me.OpGGButton.Text = "    OP.GG"
+      Me.MyToolTip.SetToolTip(Me.OpGGButton, "Shift + Enter")
       Me.OpGGButton.UseVisualStyleBackColor = True
       '
       'OpGGCheckBox
@@ -240,7 +245,11 @@ Partial Class SpectatorWindow
       Me.BlitzGGProfileButton.Size = New System.Drawing.Size(23, 23)
       Me.BlitzGGProfileButton.TabIndex = 28
       Me.BlitzGGProfileButton.Text = "P"
+      Me.MyToolTip.SetToolTip(Me.BlitzGGProfileButton, "Control + Enter")
       Me.BlitzGGProfileButton.UseVisualStyleBackColor = True
+      '
+      'NoRepeatBackgroundWorker
+      '
       '
       'SpectatorWindow
       '
@@ -297,4 +306,6 @@ Partial Class SpectatorWindow
    Friend WithEvents IDLabel As System.Windows.Forms.TextBox
    Friend WithEvents AddCheckBox As System.Windows.Forms.CheckBox
    Friend WithEvents BlitzGGProfileButton As Button
+   Friend WithEvents NoRepeatBackgroundWorker As System.ComponentModel.BackgroundWorker
+   Friend WithEvents MyToolTip As ToolTip
 End Class
