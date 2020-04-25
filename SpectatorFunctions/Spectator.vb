@@ -5,7 +5,16 @@ Public Class Spectator
    Inherits EasyCache.EasyCache
 
    Public UseDefaultLocation As Boolean = True
-   Public LoLFolder As String = "C:\Program Files (x86)\Riot Games\League of Legends\"
+   Private _LoLFolder As String = "C:\Program Files (x86)\Riot Games\League of Legends\"
+   Public Property LoLFolder() As String
+      Get
+         Return _LoLFolder
+      End Get
+      Set(ByVal value As String)
+         _LoLFolder = value
+         _CacheChanged = True
+      End Set
+   End Property
    'Private ReleasesExt As String = "Game\" ' Unused
    'Public Version As String = "0.0.1.86"
 
@@ -245,8 +254,8 @@ Public Class Spectator
             SummonerIDs.Remove(summonerName)
             SummonerIDs.Add(summInfo.SummonerName, summInfo.SummonerID)
          End If
-            Return summInfo.SummonerID
-         End If
+         Return summInfo.SummonerID
+      End If
    End Function
 
    Public Function SpectateGame(ByVal summonerName As String, Optional ByVal addSummonerToList As Boolean = True) As SpectateGameResult
