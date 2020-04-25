@@ -37,7 +37,7 @@ Partial Class SpectatorWindow
       Me.ShapeContainer1 = New Microsoft.VisualBasic.PowerPacks.ShapeContainer()
       Me.LineShape1 = New Microsoft.VisualBasic.PowerPacks.LineShape()
       Me.SummonerNameLabel = New System.Windows.Forms.Label()
-      Me.ResultLabel = New System.Windows.Forms.Label()
+      Me.StatusLabel = New System.Windows.Forms.Label()
       Me.BlitzGGButton = New System.Windows.Forms.Button()
       Me.OpGGButton = New System.Windows.Forms.Button()
       Me.OpGGCheckBox = New System.Windows.Forms.CheckBox()
@@ -97,11 +97,12 @@ Partial Class SpectatorWindow
       '
       'VersionTextBox
       '
+      Me.VersionTextBox.Enabled = False
       Me.VersionTextBox.Location = New System.Drawing.Point(78, 39)
       Me.VersionTextBox.Name = "VersionTextBox"
       Me.VersionTextBox.Size = New System.Drawing.Size(83, 22)
       Me.VersionTextBox.TabIndex = 8
-      Me.VersionTextBox.Text = "Error?"
+      Me.VersionTextBox.Text = "Unused"
       '
       'NamesComboBox
       '
@@ -125,18 +126,18 @@ Partial Class SpectatorWindow
       'CheckVersionButton
       '
       Me.CheckVersionButton.Enabled = False
-      Me.CheckVersionButton.Location = New System.Drawing.Point(167, 10)
+      Me.CheckVersionButton.Location = New System.Drawing.Point(167, 39)
       Me.CheckVersionButton.Name = "CheckVersionButton"
-      Me.CheckVersionButton.Size = New System.Drawing.Size(119, 23)
+      Me.CheckVersionButton.Size = New System.Drawing.Size(119, 22)
       Me.CheckVersionButton.TabIndex = 7
-      Me.CheckVersionButton.Text = "Recheck"
+      Me.CheckVersionButton.Text = "Unused"
       Me.CheckVersionButton.UseVisualStyleBackColor = True
       '
       'SaveSettingsButton
       '
-      Me.SaveSettingsButton.Location = New System.Drawing.Point(167, 39)
+      Me.SaveSettingsButton.Location = New System.Drawing.Point(167, 10)
       Me.SaveSettingsButton.Name = "SaveSettingsButton"
-      Me.SaveSettingsButton.Size = New System.Drawing.Size(119, 23)
+      Me.SaveSettingsButton.Size = New System.Drawing.Size(119, 22)
       Me.SaveSettingsButton.TabIndex = 9
       Me.SaveSettingsButton.Text = "Save Settings"
       Me.SaveSettingsButton.UseVisualStyleBackColor = True
@@ -168,16 +169,16 @@ Partial Class SpectatorWindow
       Me.SummonerNameLabel.TabIndex = 23
       Me.SummonerNameLabel.Text = "Summoner Name: "
       '
-      'ResultLabel
+      'StatusLabel
       '
-      Me.ResultLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-      Me.ResultLabel.ForeColor = System.Drawing.Color.Red
-      Me.ResultLabel.Location = New System.Drawing.Point(15, 167)
-      Me.ResultLabel.Name = "ResultLabel"
-      Me.ResultLabel.Size = New System.Drawing.Size(271, 24)
-      Me.ResultLabel.TabIndex = 24
-      Me.ResultLabel.Text = "RESULTS!"
-      Me.ResultLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+      Me.StatusLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+      Me.StatusLabel.ForeColor = System.Drawing.Color.Red
+      Me.StatusLabel.Location = New System.Drawing.Point(15, 167)
+      Me.StatusLabel.Name = "StatusLabel"
+      Me.StatusLabel.Size = New System.Drawing.Size(271, 24)
+      Me.StatusLabel.TabIndex = 24
+      Me.StatusLabel.Text = "RESULTS!"
+      Me.StatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
       '
       'BlitzGGButton
       '
@@ -263,7 +264,7 @@ Partial Class SpectatorWindow
       Me.Controls.Add(Me.OpGGCheckBox)
       Me.Controls.Add(Me.OpGGButton)
       Me.Controls.Add(Me.BlitzGGButton)
-      Me.Controls.Add(Me.ResultLabel)
+      Me.Controls.Add(Me.StatusLabel)
       Me.Controls.Add(Me.SummonerNameLabel)
       Me.Controls.Add(Me.SaveSettingsButton)
       Me.Controls.Add(Me.CheckVersionButton)
@@ -298,7 +299,7 @@ Partial Class SpectatorWindow
    Friend WithEvents ShapeContainer1 As Microsoft.VisualBasic.PowerPacks.ShapeContainer
    Friend WithEvents LineShape1 As Microsoft.VisualBasic.PowerPacks.LineShape
    Friend WithEvents SummonerNameLabel As System.Windows.Forms.Label
-   Friend WithEvents ResultLabel As System.Windows.Forms.Label
+   Friend WithEvents StatusLabel As System.Windows.Forms.Label
    Friend WithEvents BlitzGGButton As System.Windows.Forms.Button
    Friend WithEvents OpGGButton As System.Windows.Forms.Button
    Friend WithEvents OpGGCheckBox As System.Windows.Forms.CheckBox

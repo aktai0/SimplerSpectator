@@ -36,8 +36,6 @@ Public Class SpectatorWindow
 
    Private Sub RevalidateControls()
       LoLFolderTextBox.Text = MySpectator.LoLFolder
-      VersionTextBox.Text = "Nothing"
-      'VersionTextBox.Text = MySpectator.Version
       NamesComboBox.Items.Clear()
       For Each n In MySpectator.CachedNames
          NamesComboBox.Items.Add(n)
@@ -50,8 +48,8 @@ Public Class SpectatorWindow
             NamesComboBox.Text = MySpectator.LastSummonerName
          End If
       End If
-      ResultLabel.ForeColor = Color.LightBlue
-      ResultLabel.Text = "Standby"
+      StatusLabel.ForeColor = Color.LightBlue
+      StatusLabel.Text = "Standby"
 
       DisplayID()
    End Sub
@@ -188,7 +186,10 @@ Public Class SpectatorWindow
    'End Sub
 
    Private Sub SaveSettingsButton_Click(sender As Object, e As EventArgs) Handles SaveSettingsButton.Click
+      MySpectator.LoLFolder = LoLFolderTextBox.Text
       CacheManager.StoreAllCaches()
+      StatusLabel.Text = "Settings Saved"
+      StatusLabel.ForeColor = Color.Green
    End Sub
 
    Private Sub OpGGButton_Click(sender As Object, e As EventArgs) Handles OpGGButton.Click
@@ -227,31 +228,37 @@ Public Class SpectatorWindow
          BlitzGGButton_Click(Nothing, Nothing)
       End If
 
+      If LoLFolderTextBox.Text <> MySpectator.LoLFolder Then
+         MySpectator.LoLFolder = LoLFolderTextBox.Text
+         StatusLabel.Text = "Settings Saved"
+         StatusLabel.ForeColor = Color.Green
+      End If
+
       If Process.GetProcessesByName("League of Legends").Count > 0 Then
-         ResultLabel.ForeColor = Color.Red
-         ResultLabel.Text = "Error: LoL is already running!"
+         StatusLabel.ForeColor = Color.Red
+         StatusLabel.Text = "Error: LoL is already running!"
          Return
       End If
 
       Dim result = MySpectator.SpectateGame(NamesComboBox.Text, AddCheckBox.Checked)
       Select Case result
          Case Spectator.SpectateGameResult.OtherWebError
-            ResultLabel.ForeColor = Color.Red
-            ResultLabel.Text = "Error: Other/Web error!"
+            StatusLabel.ForeColor = Color.Red
+            StatusLabel.Text = "Error: Other/Web error!"
          Case Spectator.SpectateGameResult.APIError
-            ResultLabel.ForeColor = Color.Red
-            ResultLabel.Text = "Error: API error!"
+            StatusLabel.ForeColor = Color.Red
+            StatusLabel.Text = "Error: API error!"
          Case Spectator.SpectateGameResult.NotInGame
             RevalidateControls()
-            ResultLabel.ForeColor = Color.Red
-            ResultLabel.Text = "Error: Not in a game!"
+            StatusLabel.ForeColor = Color.Red
+            StatusLabel.Text = "Error: Not in a game!"
          Case Spectator.SpectateGameResult.SummonerNotFound
-            ResultLabel.ForeColor = Color.Red
-            ResultLabel.Text = "Error: Summoner not found!"
+            StatusLabel.ForeColor = Color.Red
+            StatusLabel.Text = "Error: Summoner not found!"
          Case Spectator.SpectateGameResult.Success
             RevalidateControls()
-            ResultLabel.ForeColor = Color.Green
-            ResultLabel.Text = "Loading game!"
+            StatusLabel.ForeColor = Color.Green
+            StatusLabel.Text = "Loading game!"
       End Select
 
       ' If the entered name changed, it's been fixed with the proper capitalization/spacing so update it in the text
