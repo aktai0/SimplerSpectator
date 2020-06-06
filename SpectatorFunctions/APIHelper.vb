@@ -141,6 +141,7 @@ Public Class APIHelper
 
       Dim enc As String = ""
       Dim id As String = ""
+      Dim participantName As String = ""
 
       Dim re As New Regex("""gameId"":(\d+),")
       Dim match = re.Match(result)
@@ -154,17 +155,16 @@ Public Class APIHelper
          enc = match.Groups(1).Value
       End If
 
+      Dim idIndex = result.IndexOf(summonerID)
+
       re = New Regex("""summonerName"":""([^""]+)""")
-      Dim matchCol = re.Matches(result)
-      Dim participants(matchCol.Count - 1) As String
-      If matchCol.Count > 1 Then
-         For i = 0 To matchCol.Count - 1
-            participants(i) = matchCol(i).Groups(1).Value
-         Next
+      match = re.Match(result, idIndex - 100, 100)
+      If match.Groups.Count > 1 Then
+         participantName = match.Groups(1).Value
       End If
 
       If id <> "" AndAlso enc <> "" Then
-         Return New SpectatorInfo(enc, id, participants)
+         Return New SpectatorInfo(enc, id, participantName)
       End If
       MsgBox("Exception wasn't caught by the end: " & result)
       Throw New APIErrorException
@@ -173,27 +173,13 @@ Public Class APIHelper
    Public Class SpectatorInfo
       Public EncryptionKey As String = ""
       Public GameID As String = ""
-      Public Participants() As String
+      Public ParticipantName As String
 
-      Public Sub New(ByVal encryption As String, ByVal id As String, ByVal parts As String())
+      Public Sub New(ByVal encryption As String, ByVal id As String, ByVal part As String)
          EncryptionKey = encryption
          GameID = id
-         Participants = parts
+         ParticipantName = part
       End Sub
-
-      ' Returns the found summoner's correct name capitalization/spacing if they exist
-      Public Function GetParticipant(ByVal summoner As String) As String
-         If Participants Is Nothing OrElse Participants.Count = 0 Then
-            Throw New Exception("Participants was empty or null")
-         End If
-         For Each s In Participants
-            ' Do a space-less case-insensitive comparison
-            If String.Compare(s.Replace(" "c, ""), summoner.Replace(" "c, ""), True) = 0 Then
-               Return s
-            End If
-         Next
-         Return Nothing
-      End Function
    End Class
 
    Public Class APIErrorException

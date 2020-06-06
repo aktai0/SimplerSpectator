@@ -238,7 +238,11 @@ Public Class Spectator
             End If
             badName += c
          Next
+         ' Name changed spaces/capitalization
          badName = badName.Insert(1, " ") ' Add a space after the first char
+         ' Name changed completely
+         'badName = "asdf " & goodName
+
          SummonerIDs.Remove(goodName)
          SummonerIDs.Add(badName, summID)
          LastSummonerName = badName
@@ -248,8 +252,10 @@ Public Class Spectator
    End Sub
 
    ' Returns the summoner's ID if already stored, otherwise query the API for it
-   Private Function GetSummonerID(ByRef summonerName As String, Optional ByVal addToList As Boolean = False, Optional forced As Boolean = False) As String
-      If Not forced AndAlso SummonerIDs.ContainsKey(summonerName) Then
+   ' If the given name wasn't in the cache, but the ID was, force a name update
+   Private Function GetSummonerID(ByRef summonerName As String, Optional ByVal addToList As Boolean = False) As String
+      ' Return the ID if it's already in the cache
+      If SummonerIDs.ContainsKey(summonerName) Then
          Return SummonerIDs(summonerName)
       Else
          Dim summInfo As SpectatorFunctions.APIHelper.SummonerInfo = Nothing
@@ -269,7 +275,7 @@ Public Class Spectator
             Dim kv = SummonerIDs.FirstOrDefault(Function(x) x.Value = summInfo.SummonerID)
             SummonerIDs.Remove(kv.Key)
 
-            MsgBox("Note: Summoner """ & summonerName & """ changed their name to """ & summInfo.SummonerName & """")
+            MsgBox("Note: Summoner """ & kv.Key & """ changed their name to """ & summInfo.SummonerName & """")
 
             ' Force the removed name to be re-added to the list
             addToList = True
@@ -313,17 +319,17 @@ Public Class Spectator
       Try
          gameInfo = APIHelper.QuerySpectator(summID)
          ' Check if summoner had a name change - needs to be updated in the cached list
-         Dim participantName = gameInfo.GetParticipant(summonerName)
-         If participantName Is Nothing OrElse participantName <> summonerName Then
+         Dim participantName = gameInfo.ParticipantName
+         If participantName <> summonerName Then
             ' Force a name update
-            GetSummonerID(summonerName,, True)
+            GetSummonerID(participantName)
          End If
       Catch ex As APIHelper.SummonerNotInGameException
          Return SpectateGameResult.NotInGame
       Catch ex As APIHelper.APIErrorException
          If SummonerIDIsCached(summonerName) Then
             Try
-               Dim newSummID = GetSummonerID(summonerName, True, True)
+               Dim newSummID = GetSummonerID(summonerName, addSummonerToList)
                ' If the forced re-checked summID is different, retry gameInfo
                If Not newSummID.Equals(summID) Then
                   gameInfo = APIHelper.QuerySpectator(newSummID)
