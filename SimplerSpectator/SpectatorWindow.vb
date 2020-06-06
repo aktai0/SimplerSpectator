@@ -36,6 +36,16 @@ Public Class SpectatorWindow
 
    Private Sub RevalidateControls()
       LoLFolderTextBox.Text = MySpectator.LoLFolder
+
+      RefreshNamesList()
+
+      StatusLabel.ForeColor = Color.LightBlue
+      StatusLabel.Text = "Standby"
+
+      ' DisplayID()
+   End Sub
+
+   Private Sub RefreshNamesList()
       NamesComboBox.Items.Clear()
       For Each n In MySpectator.CachedNames
          NamesComboBox.Items.Add(n)
@@ -48,19 +58,15 @@ Public Class SpectatorWindow
             NamesComboBox.Text = MySpectator.LastSummonerName
          End If
       End If
-      StatusLabel.ForeColor = Color.LightBlue
-      StatusLabel.Text = "Standby"
-
-      DisplayID()
    End Sub
 
-   ' Currently unused
-   Private Sub DisplayID()
-      Return
-      Dim ID = MySpectator.GetSummonerID(NamesComboBox.Text)
-      Dim IDStr As String = If(ID = 0, "", ID)
-      IDLabel.Text = IDStr
-   End Sub
+   '' Currently unused
+   'Private Sub DisplayID()
+   '   Return
+   '   Dim ID = MySpectator.GetSummonerID(NamesComboBox.Text)
+   '   Dim IDStr As String = If(ID = 0, "", ID)
+   '   IDLabel.Text = IDStr
+   'End Sub
 
    Private Sub SpectatorWindow_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
       CacheManager.StoreAllCaches()
@@ -270,7 +276,7 @@ Public Class SpectatorWindow
    Private Sub NamesComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles NamesComboBox.SelectedIndexChanged
       Console.WriteLine("SIC:" & NamesComboBox.SelectedIndex & ":" & NamesComboBox.SelectedItem & ":" & NamesComboBox.SelectedText & ":" & NamesComboBox.SelectedValue)
       NamesComboBox.SelectedValue = NamesComboBox.SelectedItem
-      DisplayID()
+      ' DisplayID()
    End Sub
 
    Private Sub NamesComboBox_SelectedValueChanged(sender As Object, e As EventArgs) Handles NamesComboBox.SelectedValueChanged
