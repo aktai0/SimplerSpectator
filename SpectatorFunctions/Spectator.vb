@@ -248,7 +248,7 @@ Public Class Spectator
    End Sub
 
    ' Returns the summoner's ID if already stored, otherwise query the API for it
-   Private Function GetSummonerID(ByVal summonerName As String, ByVal addToList As Boolean, Optional forced As Boolean = False) As String
+   Private Function GetSummonerID(ByRef summonerName As String, Optional ByVal addToList As Boolean = False, Optional forced As Boolean = False) As String
       If Not forced AndAlso SummonerIDs.ContainsKey(summonerName) Then
          Return SummonerIDs(summonerName)
       Else
@@ -269,6 +269,8 @@ Public Class Spectator
             Dim kv = SummonerIDs.FirstOrDefault(Function(x) x.Value = summInfo.SummonerID)
             SummonerIDs.Remove(kv.Key)
 
+            MsgBox("Note: Summoner """ & summonerName & """ changed their name to """ & summInfo.SummonerName & """")
+
             ' Force the removed name to be re-added to the list
             addToList = True
          End If
@@ -278,6 +280,7 @@ Public Class Spectator
             SummonerIDs.Remove(summonerName)
             SummonerIDs.Add(summInfo.SummonerName, summInfo.SummonerID)
          End If
+
          Return summInfo.SummonerID
       End If
    End Function
@@ -295,7 +298,7 @@ Public Class Spectator
       Catch ex As APIHelper.APIErrorException
          If SummonerIDIsCached(summonerName) Then
             Try
-               summID = GetSummonerID(summonerName, True, True)
+               summID = GetSummonerID(summonerName)
             Catch ex2 As Exception
                Return SpectateGameResult.APIError
             End Try
@@ -309,6 +312,12 @@ Public Class Spectator
       Dim gameInfo As APIHelper.SpectatorInfo = Nothing
       Try
          gameInfo = APIHelper.QuerySpectator(summID)
+         ' Check if summoner had a name change - needs to be updated in the cached list
+         Dim participantName = gameInfo.GetParticipant(summonerName)
+         If participantName Is Nothing OrElse participantName <> summonerName Then
+            ' Force a name update
+            GetSummonerID(summonerName,, True)
+         End If
       Catch ex As APIHelper.SummonerNotInGameException
          Return SpectateGameResult.NotInGame
       Catch ex As APIHelper.APIErrorException
