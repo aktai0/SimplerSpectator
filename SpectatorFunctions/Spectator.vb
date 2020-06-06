@@ -223,6 +223,29 @@ Public Class Spectator
       Return SummonerIDs.ContainsKey(summonerName)
    End Function
 
+   ' Changes spaces/capitalization of the last used name to test change name handling
+   Public Sub MakeLastUsedNameDirty()
+      If SummonerIDs.ContainsKey(LastSummonerName) Then
+         Dim goodName = LastSummonerName
+         Dim summID = SummonerIDs(goodName)
+         Dim badName As String = ""
+         For Each c In goodName
+            If Char.IsUpper(c) Then
+               c = Char.ToLower(c)
+            ElseIf Char.IsLower(c) Then
+               c = Char.ToUpper(c)
+            End If
+            badName += c
+         Next
+         badName = badName.Insert(1, " ") ' Add a space after the first char
+         SummonerIDs.Remove(goodName)
+         SummonerIDs.Add(badName, summID)
+         LastSummonerName = badName
+      Else
+         MsgBox("LastSummonerName was not in SummonerIDs")
+      End If
+   End Sub
+
    ' Returns the summoner's ID if already stored, otherwise query the API for it
    Private Function GetSummonerID(ByVal summonerName As String, ByVal addToList As Boolean, Optional forced As Boolean = False) As String
       If Not forced AndAlso SummonerIDs.ContainsKey(summonerName) Then

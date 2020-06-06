@@ -294,4 +294,9 @@ Public Class SpectatorWindow
       Threading.Thread.Sleep(500)
       Waiting = False
    End Sub
+
+   Private Sub CheckVersionButton_Click(sender As Object, e As EventArgs) Handles CheckVersionButton.Click
+      MySpectator.MakeLastUsedNameDirty()
+      RefreshNamesList()
+   End Sub
 End Class
