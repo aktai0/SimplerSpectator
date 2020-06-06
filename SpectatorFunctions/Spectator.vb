@@ -177,13 +177,14 @@ Public Class Spectator
 
    Public LastSummonerName As String = ""
 
-   Public Function GetSummonerID(ByVal summonerName As String) As Integer
-      If SummonerIDs.ContainsKey(summonerName) Then
-         Return CInt(SummonerIDs(summonerName))
-      Else
-         Return 0
-      End If
-   End Function
+   ' Was only used for DisplayID
+   'Public Function GetSummonerID(ByVal summonerName As String) As Integer
+   '   If SummonerIDs.ContainsKey(summonerName) Then
+   '      Return CInt(SummonerIDs(summonerName))
+   '   Else
+   '      Return 0
+   '   End If
+   'End Function
 
    Public Sub FormatAllNames()
       Dim ids As IEnumerable(Of String) = SummonerIDs.Values.AsEnumerable
