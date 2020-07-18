@@ -209,7 +209,7 @@ Public Class SpectatorWindow
          Dim blitzInfo As New ProcessStartInfo
          With blitzInfo
             .FileName = "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
-            .Arguments = "--check-for-update-interval=604800 --profile-directory=""Default"" --start-maximized --app=""https://blitz.gg/lol/live/na1/" & NamesComboBox.Text & """"
+            .Arguments = "--incognito --check-for-update-interval=604800 --profile-directory=""Default"" --start-maximized --app=""https://blitz.gg/lol/live/na1/" & NamesComboBox.Text & """"
          End With
 
          Process.Start(blitzInfo)
@@ -220,7 +220,7 @@ Public Class SpectatorWindow
       Dim blitzInfo As New ProcessStartInfo
       With blitzInfo
          .FileName = "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
-         .Arguments = "--check-for-update-interval=604800 --profile-directory=""Default"" --start-maximized --app=""https://blitz.gg/lol/profile/na1/" & NamesComboBox.Text & """"
+         .Arguments = "--incognito --check-for-update-interval=604800 --profile-directory=""Default"" --start-maximized --app=""https://blitz.gg/lol/profile/na1/" & NamesComboBox.Text & """"
       End With
 
       Process.Start(blitzInfo)
