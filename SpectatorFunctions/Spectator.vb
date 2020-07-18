@@ -36,6 +36,32 @@ Public Class Spectator
       End If
    End Sub
 
+   Public Function UpdateSummonerName(ByVal summonerName As String) As String
+      If SummonerIDs.ContainsKey(summonerName) Then
+         Dim id = SummonerIDs(summonerName)
+         Dim newName = APIHelper.QuerySummonerNameFromID(id)
+         If newName <> summonerName Then
+            SummonerIDs.Remove(summonerName)
+            SummonerIDs.Add(newName, id)
+
+            LastSummonerName = newName
+            _CacheChanged = True
+
+            MsgBox("Note: Summoner """ & summonerName & """ changed their name to """ & newName & """")
+         End If
+         Return newName
+      Else
+         Return Nothing
+      End If
+   End Function
+
+   Public Function GetCachedSummonerID(ByVal summonerName As String) As String
+      If SummonerIDs.ContainsKey(summonerName) Then
+         Return SummonerIDs(summonerName)
+      End If
+      Return Nothing
+   End Function
+
    'Public Function PopupCheckLeagueVersion() As Boolean
    '   If CheckLeagueFolder() Then
    '      Dim newVersion As String = CheckLeagueVersions()

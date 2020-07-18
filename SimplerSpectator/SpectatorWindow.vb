@@ -296,7 +296,18 @@ Public Class SpectatorWindow
    End Sub
 
    Private Sub CheckVersionButton_Click(sender As Object, e As EventArgs) Handles CheckVersionButton.Click
-      MySpectator.MakeLastUsedNameDirty()
-      RefreshNamesList()
+      'MySpectator.MakeLastUsedNameDirty()
+      'RefreshNamesList()
+      'Return
+      Dim ret = MySpectator.UpdateSummonerName(NamesComboBox.Text)
+      If ret = "" Then
+         StatusLabel.Text = "Summoner name was not in cache."
+      ElseIf ret <> NamesComboBox.Text Then
+         StatusLabel.Text = NamesComboBox.Text & " name updated to " & ret
+         NamesComboBox.Text = ret
+         RefreshNamesList()
+      Else
+         StatusLabel.Text = "Summoner name was not changed."
+      End If
    End Sub
 End Class

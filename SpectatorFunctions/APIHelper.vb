@@ -45,6 +45,7 @@ Public Class APIHelper
 
    Private Const SUMMONER_ENDPOINT_URL As String = "https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/%NAME%?api_key=%KEY%"
    Private Const SPECTATOR_ENDPOINT_URL As String = "https://na1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/%ID%?api_key=%KEY%"
+   Private Const SUMMONER_ID_ENDPOINT_URL As String = "https://na1.api.riotgames.com/lol/summoner/v4/summoners/%ID%?api_key=%KEY%"
 
    Private Shared Function GetURLOutput(ByVal inputURL As String) As String
       Dim strOutput As String = ""
@@ -168,6 +169,34 @@ Public Class APIHelper
       End If
       MsgBox("Exception wasn't caught by the end: " & result)
       Throw New APIErrorException
+   End Function
+
+   ' Calls API and returns the summoner name from the given summoner ID. If there's an error, throw the appropriate exception.
+   Public Shared Function QuerySummonerNameFromID(ByVal id As String) As String
+      Dim url = SUMMONER_ID_ENDPOINT_URL.Replace("%KEY%", API_KEY).Replace("%ID%", id)
+      Dim result = APIHelper.GetURLOutput(url)
+      If result = "Other Error" Then
+         Throw New OtherWebError
+      ElseIf result = "404" Then
+         Throw New SummonerNotFoundException
+      ElseIf result.Length = 3 Then
+         Throw New APIErrorException
+      End If
+
+      Dim sName As String = ""
+
+      Dim re As New Regex("""name"":""([^""]+)"",")
+      Dim match = re.Match(result)
+      If match.Groups.Count > 1 Then
+         sName = match.Groups(1).Value
+      End If
+
+      If sName.Length = 0 Then
+         MsgBox("Exception wasn't caught by the end: " & result)
+         Throw New APIErrorException
+      Else
+         Return sName
+      End If
    End Function
 
    Public Class SpectatorInfo
