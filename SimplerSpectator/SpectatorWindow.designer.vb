@@ -121,7 +121,6 @@ Partial Class SpectatorWindow
       Me.SpectateUserButton.Size = New System.Drawing.Size(271, 23)
       Me.SpectateUserButton.TabIndex = 1
       Me.SpectateUserButton.Text = "Go"
-      Me.MyToolTip.SetToolTip(Me.SpectateUserButton, "Shift+Click to force a name update (for summoners already added)")
       Me.SpectateUserButton.UseVisualStyleBackColor = True
       '
       'CheckVersionButton
