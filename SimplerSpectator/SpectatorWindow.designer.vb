@@ -75,6 +75,7 @@ Partial Class SpectatorWindow
       Me.LoLFolderTextBox.Name = "LoLFolderTextBox"
       Me.LoLFolderTextBox.Size = New System.Drawing.Size(83, 22)
       Me.LoLFolderTextBox.TabIndex = 6
+      Me.LoLFolderTextBox.TabStop = False
       Me.LoLFolderTextBox.Text = "Error?"
       '
       'FolderLabel
@@ -102,6 +103,7 @@ Partial Class SpectatorWindow
       Me.VersionTextBox.Name = "VersionTextBox"
       Me.VersionTextBox.Size = New System.Drawing.Size(83, 22)
       Me.VersionTextBox.TabIndex = 8
+      Me.VersionTextBox.TabStop = False
       Me.VersionTextBox.Text = "Unused"
       '
       'NamesComboBox
@@ -129,6 +131,7 @@ Partial Class SpectatorWindow
       Me.CheckVersionButton.Name = "CheckVersionButton"
       Me.CheckVersionButton.Size = New System.Drawing.Size(119, 22)
       Me.CheckVersionButton.TabIndex = 7
+      Me.CheckVersionButton.TabStop = False
       Me.CheckVersionButton.Text = "Check Name"
       Me.CheckVersionButton.UseVisualStyleBackColor = True
       '
@@ -138,6 +141,7 @@ Partial Class SpectatorWindow
       Me.SaveSettingsButton.Name = "SaveSettingsButton"
       Me.SaveSettingsButton.Size = New System.Drawing.Size(119, 22)
       Me.SaveSettingsButton.TabIndex = 9
+      Me.SaveSettingsButton.TabStop = False
       Me.SaveSettingsButton.Text = "Save Settings"
       Me.SaveSettingsButton.UseVisualStyleBackColor = True
       '
@@ -184,7 +188,7 @@ Partial Class SpectatorWindow
       Me.BlitzGGButton.Location = New System.Drawing.Point(154, 141)
       Me.BlitzGGButton.Name = "BlitzGGButton"
       Me.BlitzGGButton.Size = New System.Drawing.Size(108, 23)
-      Me.BlitzGGButton.TabIndex = 5
+      Me.BlitzGGButton.TabIndex = 3
       Me.BlitzGGButton.Text = "     Blitz.GG"
       Me.MyToolTip.SetToolTip(Me.BlitzGGButton, "Alt + Enter")
       Me.BlitzGGButton.UseVisualStyleBackColor = True
@@ -194,7 +198,7 @@ Partial Class SpectatorWindow
       Me.OpGGButton.Location = New System.Drawing.Point(15, 141)
       Me.OpGGButton.Name = "OpGGButton"
       Me.OpGGButton.Size = New System.Drawing.Size(132, 23)
-      Me.OpGGButton.TabIndex = 4
+      Me.OpGGButton.TabIndex = 2
       Me.OpGGButton.Text = "    OP.GG"
       Me.MyToolTip.SetToolTip(Me.OpGGButton, "Shift + Enter")
       Me.OpGGButton.UseVisualStyleBackColor = True
@@ -206,6 +210,7 @@ Partial Class SpectatorWindow
       Me.OpGGCheckBox.Name = "OpGGCheckBox"
       Me.OpGGCheckBox.Size = New System.Drawing.Size(18, 17)
       Me.OpGGCheckBox.TabIndex = 2
+      Me.OpGGCheckBox.TabStop = False
       Me.OpGGCheckBox.UseVisualStyleBackColor = True
       '
       'BlitzGGCheckBox
@@ -215,6 +220,7 @@ Partial Class SpectatorWindow
       Me.BlitzGGCheckBox.Name = "BlitzGGCheckBox"
       Me.BlitzGGCheckBox.Size = New System.Drawing.Size(18, 17)
       Me.BlitzGGCheckBox.TabIndex = 3
+      Me.BlitzGGCheckBox.TabStop = False
       Me.BlitzGGCheckBox.UseVisualStyleBackColor = True
       '
       'IDLabel
@@ -235,6 +241,7 @@ Partial Class SpectatorWindow
       Me.AddCheckBox.Name = "AddCheckBox"
       Me.AddCheckBox.Size = New System.Drawing.Size(18, 17)
       Me.AddCheckBox.TabIndex = 27
+      Me.AddCheckBox.TabStop = False
       Me.AddCheckBox.UseVisualStyleBackColor = True
       '
       'BlitzGGProfileButton
@@ -243,7 +250,7 @@ Partial Class SpectatorWindow
       Me.BlitzGGProfileButton.Name = "BlitzGGProfileButton"
       Me.BlitzGGProfileButton.Padding = New System.Windows.Forms.Padding(1, 0, 0, 0)
       Me.BlitzGGProfileButton.Size = New System.Drawing.Size(23, 23)
-      Me.BlitzGGProfileButton.TabIndex = 28
+      Me.BlitzGGProfileButton.TabIndex = 4
       Me.BlitzGGProfileButton.Text = "P"
       Me.MyToolTip.SetToolTip(Me.BlitzGGProfileButton, "Control + Enter")
       Me.BlitzGGProfileButton.UseVisualStyleBackColor = True
