@@ -38,15 +38,16 @@ Partial Class SpectatorWindow
       Me.LineShape1 = New Microsoft.VisualBasic.PowerPacks.LineShape()
       Me.SummonerNameLabel = New System.Windows.Forms.Label()
       Me.StatusLabel = New System.Windows.Forms.Label()
-      Me.BlitzGGButton = New System.Windows.Forms.Button()
+      Me.PorofessorGGButton = New System.Windows.Forms.Button()
       Me.OpGGButton = New System.Windows.Forms.Button()
       Me.OpGGCheckBox = New System.Windows.Forms.CheckBox()
-      Me.BlitzGGCheckBox = New System.Windows.Forms.CheckBox()
+      Me.PorofessorGGCheckBox = New System.Windows.Forms.CheckBox()
       Me.IDLabel = New System.Windows.Forms.TextBox()
       Me.AddCheckBox = New System.Windows.Forms.CheckBox()
       Me.BlitzGGProfileButton = New System.Windows.Forms.Button()
       Me.NoRepeatBackgroundWorker = New System.ComponentModel.BackgroundWorker()
       Me.MyToolTip = New System.Windows.Forms.ToolTip(Me.components)
+      Me.DisableGoButtonBackgroundWorker = New System.ComponentModel.BackgroundWorker()
       Me.SuspendLayout()
       '
       'CommandTextBox
@@ -183,15 +184,15 @@ Partial Class SpectatorWindow
       Me.StatusLabel.Text = "RESULTS!"
       Me.StatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
       '
-      'BlitzGGButton
+      'PorofessorGGButton
       '
-      Me.BlitzGGButton.Location = New System.Drawing.Point(154, 141)
-      Me.BlitzGGButton.Name = "BlitzGGButton"
-      Me.BlitzGGButton.Size = New System.Drawing.Size(108, 23)
-      Me.BlitzGGButton.TabIndex = 3
-      Me.BlitzGGButton.Text = "     Blitz.GG"
-      Me.MyToolTip.SetToolTip(Me.BlitzGGButton, "Alt + Enter")
-      Me.BlitzGGButton.UseVisualStyleBackColor = True
+      Me.PorofessorGGButton.Location = New System.Drawing.Point(154, 141)
+      Me.PorofessorGGButton.Name = "PorofessorGGButton"
+      Me.PorofessorGGButton.Size = New System.Drawing.Size(108, 23)
+      Me.PorofessorGGButton.TabIndex = 3
+      Me.PorofessorGGButton.Text = "     Porofessor"
+      Me.MyToolTip.SetToolTip(Me.PorofessorGGButton, "Alt + Enter")
+      Me.PorofessorGGButton.UseVisualStyleBackColor = True
       '
       'OpGGButton
       '
@@ -213,15 +214,15 @@ Partial Class SpectatorWindow
       Me.OpGGCheckBox.TabStop = False
       Me.OpGGCheckBox.UseVisualStyleBackColor = True
       '
-      'BlitzGGCheckBox
+      'PorofessorGGCheckBox
       '
-      Me.BlitzGGCheckBox.AutoSize = True
-      Me.BlitzGGCheckBox.Location = New System.Drawing.Point(158, 145)
-      Me.BlitzGGCheckBox.Name = "BlitzGGCheckBox"
-      Me.BlitzGGCheckBox.Size = New System.Drawing.Size(18, 17)
-      Me.BlitzGGCheckBox.TabIndex = 3
-      Me.BlitzGGCheckBox.TabStop = False
-      Me.BlitzGGCheckBox.UseVisualStyleBackColor = True
+      Me.PorofessorGGCheckBox.AutoSize = True
+      Me.PorofessorGGCheckBox.Location = New System.Drawing.Point(158, 145)
+      Me.PorofessorGGCheckBox.Name = "PorofessorGGCheckBox"
+      Me.PorofessorGGCheckBox.Size = New System.Drawing.Size(18, 17)
+      Me.PorofessorGGCheckBox.TabIndex = 3
+      Me.PorofessorGGCheckBox.TabStop = False
+      Me.PorofessorGGCheckBox.UseVisualStyleBackColor = True
       '
       'IDLabel
       '
@@ -258,6 +259,10 @@ Partial Class SpectatorWindow
       'NoRepeatBackgroundWorker
       '
       '
+      'DisableGoButtonBackgroundWorker
+      '
+      Me.DisableGoButtonBackgroundWorker.WorkerReportsProgress = True
+      '
       'SpectatorWindow
       '
       Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
@@ -266,10 +271,10 @@ Partial Class SpectatorWindow
       Me.Controls.Add(Me.BlitzGGProfileButton)
       Me.Controls.Add(Me.AddCheckBox)
       Me.Controls.Add(Me.IDLabel)
-      Me.Controls.Add(Me.BlitzGGCheckBox)
+      Me.Controls.Add(Me.PorofessorGGCheckBox)
       Me.Controls.Add(Me.OpGGCheckBox)
       Me.Controls.Add(Me.OpGGButton)
-      Me.Controls.Add(Me.BlitzGGButton)
+      Me.Controls.Add(Me.PorofessorGGButton)
       Me.Controls.Add(Me.StatusLabel)
       Me.Controls.Add(Me.SummonerNameLabel)
       Me.Controls.Add(Me.SaveSettingsButton)
@@ -306,13 +311,14 @@ Partial Class SpectatorWindow
    Friend WithEvents LineShape1 As Microsoft.VisualBasic.PowerPacks.LineShape
    Friend WithEvents SummonerNameLabel As System.Windows.Forms.Label
    Friend WithEvents StatusLabel As System.Windows.Forms.Label
-   Friend WithEvents BlitzGGButton As System.Windows.Forms.Button
+   Friend WithEvents PorofessorGGButton As System.Windows.Forms.Button
    Friend WithEvents OpGGButton As System.Windows.Forms.Button
    Friend WithEvents OpGGCheckBox As System.Windows.Forms.CheckBox
-   Friend WithEvents BlitzGGCheckBox As System.Windows.Forms.CheckBox
+   Friend WithEvents PorofessorGGCheckBox As System.Windows.Forms.CheckBox
    Friend WithEvents IDLabel As System.Windows.Forms.TextBox
    Friend WithEvents AddCheckBox As System.Windows.Forms.CheckBox
    Friend WithEvents BlitzGGProfileButton As Button
    Friend WithEvents NoRepeatBackgroundWorker As System.ComponentModel.BackgroundWorker
    Friend WithEvents MyToolTip As ToolTip
+   Friend WithEvents DisableGoButtonBackgroundWorker As System.ComponentModel.BackgroundWorker
 End Class

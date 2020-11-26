@@ -136,7 +136,7 @@ Public Class SpectatorWindow
             BlitzGGProfileButton_Click(Nothing, Nothing)
          End If
          If keyData.HasFlag(Keys.Alt) Then
-            BlitzGGButton_Click(Nothing, Nothing)
+            PorofessorGGButton_Click(Nothing, Nothing)
          End If
          NoRepeat()
       ElseIf keyData = Keys.Enter AndAlso NamesComboBox.Focused Then
@@ -199,39 +199,52 @@ Public Class SpectatorWindow
    End Sub
 
    Private Sub OpGGButton_Click(sender As Object, e As EventArgs) Handles OpGGButton.Click
-      If NamesComboBox.Text <> "" And Not NamesComboBox.Text Is Nothing Then
-         Process.Start("http://na.op.gg/summoner/userName=" & NamesComboBox.Text)
+      If NamesComboBox.Text Is Nothing OrElse NamesComboBox.Text = "" Then
+         Return
       End If
+      Dim opggInfo As New ProcessStartInfo
+      With opggInfo
+         .FileName = "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+         .Arguments = "--incognito --check-for-update-interval=604800 --profile-directory=""Default"" --start-maximized ""http://na.op.gg/summoner/userName=" & NamesComboBox.Text & """"
+      End With
+
+      Process.Start(opggInfo)
    End Sub
 
-   Private Sub BlitzGGButton_Click(sender As Object, e As EventArgs) Handles BlitzGGButton.Click
-      If NamesComboBox.Text <> "" And Not NamesComboBox.Text Is Nothing Then
-         Dim blitzInfo As New ProcessStartInfo
-         With blitzInfo
-            .FileName = "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
-            .Arguments = "--incognito --check-for-update-interval=604800 --profile-directory=""Default"" --start-maximized --app=""https://blitz.gg/lol/live/na1/" & NamesComboBox.Text & """"
-         End With
-
-         Process.Start(blitzInfo)
+   Private Sub PorofessorGGButton_Click(sender As Object, e As EventArgs) Handles PorofessorGGButton.Click
+      If NamesComboBox.Text Is Nothing OrElse NamesComboBox.Text = "" Then
+         Return
       End If
+      Dim PorofessorInfo As New ProcessStartInfo
+      With PorofessorInfo
+         .FileName = "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+         .Arguments = "--incognito --check-for-update-interval=604800 --profile-directory=""Default"" --start-maximized ""https://porofessor.gg/live/na/" & NamesComboBox.Text & """"
+      End With
+
+      Process.Start(PorofessorInfo)
    End Sub
 
    Private Sub BlitzGGProfileButton_Click(sender As Object, e As EventArgs) Handles BlitzGGProfileButton.Click
+      If NamesComboBox.Text Is Nothing OrElse NamesComboBox.Text = "" Then
+         Return
+      End If
       Dim blitzInfo As New ProcessStartInfo
       With blitzInfo
          .FileName = "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
-         .Arguments = "--incognito --check-for-update-interval=604800 --profile-directory=""Default"" --start-maximized --app=""https://blitz.gg/lol/profile/na1/" & NamesComboBox.Text & """"
+         .Arguments = "--incognito --check-for-update-interval=604800 --profile-directory=""Default"" --start-maximized ""https://blitz.gg/lol/profile/na1/" & NamesComboBox.Text & """"
       End With
 
       Process.Start(blitzInfo)
    End Sub
 
    Private Sub SpectateUserButton_Click(sender As Object, e As EventArgs) Handles SpectateUserButton.Click
+      DisableGoButtonBackgroundWorker.RunWorkerAsync()
+
       If OpGGCheckBox.Checked Then
          OpGGButton_Click(Nothing, Nothing)
       End If
-      If BlitzGGCheckBox.Checked Then
-         BlitzGGButton_Click(Nothing, Nothing)
+      If PorofessorGGCheckBox.Checked Then
+         PorofessorGGButton_Click(Nothing, Nothing)
       End If
 
       If LoLFolderTextBox.Text <> MySpectator.LoLFolder Then
@@ -308,6 +321,25 @@ Public Class SpectatorWindow
          RefreshNamesList()
       Else
          StatusLabel.Text = "Summoner name was not changed."
+      End If
+   End Sub
+
+   Private Sub DisableGoButtonBackgroundWorker_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles DisableGoButtonBackgroundWorker.DoWork
+      DisableGoButtonBackgroundWorker.ReportProgress(0)
+      System.Threading.Thread.Sleep(2000)
+      DisableGoButtonBackgroundWorker.ReportProgress(100)
+   End Sub
+
+   Private Sub DisableGoButtonBackgroundWorker_ProgressChanged(sender As Object, e As System.ComponentModel.ProgressChangedEventArgs) Handles DisableGoButtonBackgroundWorker.ProgressChanged
+      If e.ProgressPercentage = 0 Then
+         SpectateUserButton.Enabled = False
+      ElseIf e.ProgressPercentage = 100 Then
+         SpectateUserButton.Enabled = True
+         ' If the op.gg button is focused (switches automatically when Go is disabled),
+         '  or if the form isn't the active window, then focus the Go button when re-enabled.
+         If OpGGButton.Focused OrElse (Not Me.ContainsFocus) Then
+            SpectateUserButton.Focus()
+         End If
       End If
    End Sub
 End Class
