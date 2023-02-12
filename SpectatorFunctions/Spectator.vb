@@ -169,8 +169,9 @@ Public Class Spectator
    'Private Const RIOTS_MAGIC_NUMBER As String = """12345"""
    'Private Const LOLLAUNCHER_EXE As String = " ""LoLLauncher.exe"""
    'Private Const EMPTY_STR As String = " """""
-   Private Const NA_URL As String = " ""spectator spectator.na2.lol.riotgames.com:80 "
+   Private Const NA_URL As String = " ""spectator spectator-consumer.na1.lol.pvp.net:80 "
    Private Const NA_ID As String = " NA1"""
+   Private Const NA_OTHER_ARGS As String = "  "
 
    Public ReadOnly Property GetFullCommand(ByVal encryption As String, ByVal matchID As String) As String
       Get
@@ -187,7 +188,7 @@ Public Class Spectator
 
    Public ReadOnly Property GetArguments(ByVal encryption As String, ByVal matchID As String) As String
       Get
-         Return NA_URL & encryption & " " & matchID & NA_ID & " ""-UseRads"""
+         Return NA_URL & encryption & " " & matchID & NA_ID & NA_OTHER_ARGS
       End Get
    End Property
 
